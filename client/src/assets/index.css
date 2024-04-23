@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  overflow-y: hidden;
+}
+
+body {
+  background: linear-gradient(135deg, #d3ecff 0%, #b0daff 50%, #e7f5ff 100%);
+}

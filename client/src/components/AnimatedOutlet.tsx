@@ -26,7 +26,7 @@ export const AnimatedOutlet = () => {
           exit={{ scale: 0.8, opacity: 0 }}
           transition={{ duration: 0.3 }}
           style={{
-            maxWidth: '800px',
+            maxWidth: '1200px',
             width: '100%',
             padding: '2rem',
             backgroundColor: '#fff',
