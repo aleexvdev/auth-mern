@@ -5,10 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { CiLock, CiMail } from "react-icons/ci";
 import { PiHandWaving } from "react-icons/pi";
 
-// style={{ background: "linear-gradient(to bottom right, #282258, #4C264F, #313066)" }}
 export const LoginPage = () => {
-
-
 
   return (
     <section className="h-5/6 w-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
