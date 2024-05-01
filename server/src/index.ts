@@ -1,16 +1,6 @@
-import express from "express";
-import cors from "cors";
+import app from "./app";
+import config from "./config/config"
 
-const app = express();
-app.use(express.json());
-app.use(cors())
-const PORT = 3000;
-
-app.get('/ping', (_req, res) => {
-  console.log('semeone pinged here!');
-  res.send('pong')
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.listen(config.port, () => {
+  console.log(`Server listening on port ${config.port}`);
 });
