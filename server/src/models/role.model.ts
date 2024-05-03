@@ -16,7 +16,7 @@ const rolesSchema: Schema = new Schema({
   }
 }, 
 {
-  versionKey: true
+  versionKey: false
 });
 
 export const Role = model<IRoleDocument>("Role", rolesSchema);

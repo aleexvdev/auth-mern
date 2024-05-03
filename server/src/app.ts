@@ -3,6 +3,7 @@ import cors from 'cors';
 import connectDB from './config/database';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import AuthRouters from './routes/auth.routes'
 
 const app = express();
 // Settings
@@ -25,6 +26,8 @@ app.get("/", (_req, res) => {
     message: "Welcome to Auth application.",
   });
 });
+
+app.use('/api/v1/auth', AuthRouters)
 
 // Conexión a la base de datos
 connectDB();

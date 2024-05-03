@@ -1,11 +1,11 @@
 import { Document, Schema, model } from "mongoose";
-import { IRoleDocument } from "./Role.model";
+import { IRoleDocument } from "./role.model";
 
-export interface IUserDocument extends Document {
+export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  role: IRoleDocument['_id'];
+  roles: IRoleDocument['_id'];
   googleId?: string;
 }
 
@@ -45,7 +45,7 @@ const userSchema: Schema = new Schema({
 },
 {
   timestamps: true,
-  versionKey: true
+  versionKey: false
 });
 
-export const User = model<IUserDocument>('User', userSchema);
+export const User = model<IUser>('User', userSchema);
