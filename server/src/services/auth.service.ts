@@ -1,10 +1,10 @@
-import { Role } from "../models/role.model";
 import { User } from "../models/user.model";
 import { comparePassword, generateToken, hashPassword } from "../utils";
+import { RoleService } from "./role.service";
 
 class AuthService {
 
-  // constructor(private userService: UserService) {}
+  constructor(private roleService: RoleService) {}
 
   signUpHandler = async (userData: { username: string, email: string, password: string, roles: string[] }) => {
     const { username, email, password, roles = [] } = userData;
@@ -13,14 +13,11 @@ class AuthService {
 
     const newUser = new User({ username, email, password: await hashPassword(password) });
     if (roles.length > 0) {
-      const foundRoles = await Role.find({ name: { $in: roles } });
+      const foundRoles = await this.roleService.findRolesByNames(roles);
       newUser.roles = foundRoles.map((role) => role._id);
     } else {
-      const userRole = await Role.findOne({ name: "user" });
-      if (!userRole) {
-        throw new Error('Default "user" role not found');
-      }
-      newUser.roles = [userRole._id];
+      const defaultRole = await this.roleService.findDefaultRole();
+      newUser.roles = [defaultRole._id];
     }
     const user = await newUser.save();
     return user;
@@ -34,7 +31,7 @@ class AuthService {
     const isMatch = await comparePassword(password, existingUser.password);
     if (!isMatch) throw new Error("Password is incorrect");
 
-    const token = await generateToken(existingUser._id.toString());
+    const token = await generateToken(existingUser._id.toString(), existingUser.roles);
 
     return { user: existingUser, token: token };
   }
