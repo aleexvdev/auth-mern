@@ -27,3 +27,9 @@ export const validateSignIn = [
     .isString()
     .withMessage("Password is required")
 ];
+
+export const validateRefreshToken = [
+  body('refreshToken')
+    .notEmpty()
+    .withMessage('Refresh token is required')
+];

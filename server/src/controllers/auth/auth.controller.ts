@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import AuthService from "../../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import { validationResult } from "express-validator";
 import { CustomError } from "../../helpers/custom-error";
 
@@ -32,6 +32,22 @@ export class AuthController {
 
     try {
       const data = await this.authService.signInHandler(req.body);
+      res.status(200).json({ data });
+    } catch (error) {
+      if (error instanceof CustomError) {
+        res.status(error.statusCode).json({ message: error.message });
+      } else {
+        res.status(500).json({ message: "Internal Server Error" });
+      }
+    }
+  }
+
+  refreshTokenHandler = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) throw new CustomError(errors.array()[0].msg, 400);
+
+    try {
+      const data = await this.authService.refreshTokenHandler(req.body);
       res.status(200).json({ data });
     } catch (error) {
       if (error instanceof CustomError) {
