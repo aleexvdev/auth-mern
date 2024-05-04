@@ -1,15 +1,18 @@
 import { User } from "../models/user.model";
-import { comparePassword, generateToken, hashPassword } from "../utils";
+import { SignUpData } from "../types/auth";
+import { arePasswordsEqual, comparePassword, generateToken, hashPassword } from "../utils";
 import { RoleService } from "./role.service";
 
 class AuthService {
 
   constructor(private roleService: RoleService) {}
 
-  signUpHandler = async (userData: { username: string, email: string, password: string, roles: string[] }) => {
-    const { username, email, password, roles = [] } = userData;
+  signUpHandler = async (userData: SignUpData) => {
+    const { username, email, password, confirmPassword, roles } = userData;
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) throw new Error("User with the provided email or username already exists");
+
+    if (!arePasswordsEqual(password, confirmPassword)) throw new Error("Passwords do not match");
 
     const newUser = new User({ username, email, password: await hashPassword(password) });
     if (roles.length > 0) {
@@ -32,7 +35,6 @@ class AuthService {
     if (!isMatch) throw new Error("Password is incorrect");
 
     const token = await generateToken(existingUser._id.toString(), existingUser.roles);
-
     return { user: existingUser, token: token };
   }
 

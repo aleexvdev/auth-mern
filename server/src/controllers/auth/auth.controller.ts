@@ -16,7 +16,7 @@ export class AuthController {
       res.status(201).json({
         success: true,
         data
-      })
+      });
     } catch (error) {
       if (error instanceof CustomError) {
         res.status(error.statusCode).json({ success: false, error: error.message });
