@@ -6,7 +6,7 @@ import { RoleService } from "./role.service";
 
 export class AuthService {
 
-  constructor(private roleService: RoleService) { }
+  constructor (private roleService: RoleService) { }
 
   signUpHandler = async (userData: SignUpData) => {
     const { username, email, password, confirmPassword, roles = [] } = userData;
