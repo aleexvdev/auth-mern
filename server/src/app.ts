@@ -4,6 +4,7 @@ import connectDB from './config/database';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import AuthRouters from './routes/auth.routes'
+import { createRoles } from './libs/initialSetup';
 
 const app = express();
 // Settings
@@ -31,5 +32,6 @@ app.use('/api/v1/auth', AuthRouters)
 
 // Conexión a la base de datos
 connectDB();
+createRoles();
 
 export default app;
