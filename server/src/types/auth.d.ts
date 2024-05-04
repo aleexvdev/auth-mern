@@ -3,5 +3,5 @@ export interface SignUpData {
   email: string;
   password: string;
   confirmPassword: string;
-  roles: string[] | [];
+  roles: string[];
 }

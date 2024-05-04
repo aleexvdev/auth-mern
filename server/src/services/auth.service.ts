@@ -8,11 +8,12 @@ class AuthService {
   constructor(private roleService: RoleService) {}
 
   signUpHandler = async (userData: SignUpData) => {
-    const { username, email, password, confirmPassword, roles } = userData;
+    const { username, email, password, confirmPassword, roles = [] } = userData;
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) throw new Error("User with the provided email or username already exists");
-
-    if (!arePasswordsEqual(password, confirmPassword)) throw new Error("Passwords do not match");
+    
+    const passwordsEqual = await arePasswordsEqual(password, confirmPassword);
+    if (!passwordsEqual) throw new Error("Passwords do not match");
 
     const newUser = new User({ username, email, password: await hashPassword(password) });
     if (roles.length > 0) {
@@ -22,8 +23,8 @@ class AuthService {
       const defaultRole = await this.roleService.findDefaultRole();
       newUser.roles = [defaultRole._id];
     }
-    const user = await newUser.save();
-    return user;
+    // const user = await newUser.save();
+    return newUser;
   }
 
   signInHandler = async (params: { email: string, password: string }) => {
