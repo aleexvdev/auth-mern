@@ -14,9 +14,9 @@ const authController = new AuthController(authService);
 router.post('/sign-up', [ verifySingUp.checkedDuplicateUsernameOrEmail, verifySingUp.checkRolesExisted ], validateSignUp, authController.signUpHandler);
 router.post('/sign-in', validateSignIn, authController.signInHandler);
 router.post('/refresh-token', validateRefreshToken, authController.refreshTokenHandler);
+router.post('/sign-out', authController.signOutHandler);
 
 // router.post('/recover-password', authController.recoverPassword);
 // router.post('/sign-in-google', authController.signInGoogle);
-// router.post('/logout', authController.logout);
 
 export default router;
