@@ -47,7 +47,7 @@ export class AuthController {
   }
 
   signOutHandler = async (_req: Request, res: Response): Promise<Response> => {
-    return res.status(200).json({ message: 'Sesión cerrada exitosamente.' });
+    return res.status(200).json({ message: 'Session closed successfully.' });
   }
 
 }
