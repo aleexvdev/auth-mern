@@ -4,6 +4,7 @@ import connectDB from './config/database';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import AuthRouters from './routes/auth.routes'
+import UserRouters from './routes/user.routes'
 import { createRoles } from './libs/initialSetup';
 
 const app = express();
@@ -17,6 +18,10 @@ app.use(
     // origin: "http://localhost:3000",
   })
 );
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  // Realiza acciones adicionales, como registrar el error, enviar una notificación, etc.
+});
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(morgan("dev"));
@@ -28,7 +33,8 @@ app.get("/", (_req, res) => {
   });
 });
 
-app.use('/api/v1/auth', AuthRouters)
+app.use('/api/v1/auth', AuthRouters);
+app.use('/api/v1/users', UserRouters);
 
 // Conexión a la base de datos
 connectDB();

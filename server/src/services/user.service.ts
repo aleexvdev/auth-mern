@@ -34,6 +34,14 @@ export class UserService {
   updateUser = async (userId: string, userUpdate: IUser): Promise<IUser | null> => {
 
     if (userUpdate.password) userUpdate.password = await hashPassword(userUpdate.password);
+    if (userUpdate.roles.length > 0) {
+      const foundRoles = await this.roleService.findRolesByNames(userUpdate.roles);
+      userUpdate.roles = foundRoles.map((role) => role._id);
+    } else {
+      const defaultRole = await this.roleService.findDefaultRole();
+      userUpdate.roles = [defaultRole._id];
+    }
+    console.log(userUpdate)
     return await User.findByIdAndUpdate(userId, userUpdate, { new: true });
   }
 
