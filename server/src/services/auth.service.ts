@@ -3,7 +3,6 @@ import { User } from "../models/user.model";
 import { SignInData, SignUpData, tokenData } from "../types/auth";
 import { comparePassword, generateToken, hashPassword, verifyToken } from "../utils";
 import { RoleService } from "./role.service";
-import jwt from 'jsonwebtoken';
 
 export class AuthService {
 
