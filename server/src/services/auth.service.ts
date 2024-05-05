@@ -1,7 +1,7 @@
 import config from "../config/config";
 import { User } from "../models/user.model";
 import { SignInData, SignUpData } from "../types/auth";
-import { arePasswordsEqual, comparePassword, generateToken, hashPassword, verifyToken } from "../utils";
+import { comparePassword, generateToken, hashPassword, verifyToken } from "../utils";
 import { RoleService } from "./role.service";
 
 export class AuthService {
@@ -9,12 +9,9 @@ export class AuthService {
   constructor (private roleService: RoleService) { }
 
   signUpHandler = async (userData: SignUpData) => {
-    const { username, email, password, confirmPassword, roles = [] } = userData;
+    const { username, email, password, roles = [] } = userData;
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) throw new Error("User with the provided email or username already exists");
-
-    const passwordsEqual = await arePasswordsEqual(password, confirmPassword);
-    if (!passwordsEqual) throw new Error("Passwords do not match");
 
     const newUser = new User({ username, email, password: await hashPassword(password) });
     if (roles.length > 0) {
@@ -28,8 +25,8 @@ export class AuthService {
     return user;
   }
 
-  signInHandler = async (params: SignInData) => {
-    const { email, password } = params;
+  signInHandler = async (userData: SignInData) => {
+    const { email, password } = userData;
     const existingUser = await User.findOne({ email });
     if (!existingUser) throw new Error("User with the provided email does not exist");
 

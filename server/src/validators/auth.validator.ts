@@ -13,6 +13,12 @@ export const validateSignUp = [
     .isLength({ min: 6 })
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\s\S]*$/)
     .withMessage("Password must be at least 6 characters long, contain at least one uppercase letter, one lowercase letter, and one number"),
+  body('confirmPassword').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Passwords do not match');
+    }
+    return true;
+  }),
   body("roles")
     .optional()
     .isArray()

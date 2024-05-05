@@ -1,60 +1,48 @@
 import { Request, Response } from "express";
 import { AuthService } from "../../services/auth.service";
 import { validationResult } from "express-validator";
-import { CustomError } from "../../helpers/custom-error";
+import { errorResponse, successResponse } from "../../helpers/responseHandler";
 
 export class AuthController {
 
   constructor(private authService: AuthService) {}
 
-  signUpHandler = async (req: Request, res: Response) => {
+  signUpHandler = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) throw new CustomError(errors.array()[0].msg, 400);
+    if (!errors.isEmpty()) return errorResponse(res, 500, 'Bad Request', errors.array());
 
     try {
       const data = await this.authService.signUpHandler(req.body);
-      res.status(201).json({
-        success: true,
-        data
-      });
-    } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.statusCode).json({ success: false, error: error.message });
-      } else {
-        res.status(500).json({ success: false, error: "Internal Server Error" });
-      }
+      if (!data) return errorResponse(res, 500, 'Error signing up user', 'Failed to sign up user');
+      return successResponse(res, 'User signed up successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
     }
   }
 
-  signInHandler = async (req: Request, res: Response) => {
+  signInHandler = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) throw new CustomError(errors.array()[0].msg, 400);
+    if (!errors.isEmpty()) return errorResponse(res, 500, 'Bad Request', errors.array());
 
     try {
       const data = await this.authService.signInHandler(req.body);
-      res.status(200).json({ data });
-    } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.statusCode).json({ message: error.message });
-      } else {
-        res.status(500).json({ message: "Internal Server Error" });
-      }
+      if (!data) return errorResponse(res, 500, 'Error signing in user', 'Failed to sign in user');
+      return successResponse(res, 'User signed in successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
     }
   }
 
-  refreshTokenHandler = async (req: Request, res: Response) => {
+  refreshTokenHandler = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) throw new CustomError(errors.array()[0].msg, 400);
+    if (!errors.isEmpty()) return errorResponse(res, 500, 'Bad Request', errors.array());
 
     try {
       const data = await this.authService.refreshTokenHandler(req.body);
-      res.status(200).json({ data });
-    } catch (error) {
-      if (error instanceof CustomError) {
-        res.status(error.statusCode).json({ message: error.message });
-      } else {
-        res.status(500).json({ message: "Internal Server Error" });
-      }
+      if (!data) return errorResponse(res, 500, 'Error refreshing token', 'Failed to refresh token');
+      return successResponse(res, 'Token refreshed successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
     }
   }
 
