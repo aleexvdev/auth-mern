@@ -28,6 +28,11 @@ export const validateCreateUser = [
 ];
 
 export const validateUpdateUser = [
+  query('id')
+    .exists()
+    .withMessage('ID User is required')
+    .notEmpty()
+    .withMessage('ID User is required'),
   body("username")
     .optional()
     .isString()

@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import AuthRouters from './routes/auth.routes'
 import UserRouters from './routes/user.routes'
 import { createRoles } from './libs/initialSetup';
+import expressListEndpoints  from "express-list-endpoints";
 
 const app = express();
 // Settings
@@ -31,6 +32,9 @@ app.get("/", (_req, res) => {
   res.json({ 
     message: "Welcome to Auth application.",
   });
+});
+app.get('/api/v1/routes', (_req, res) => {
+  res.status(200).json(expressListEndpoints(app));
 });
 
 app.use('/api/v1/auth', AuthRouters);

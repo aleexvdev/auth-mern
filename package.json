@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/express-list-endpoints": "^6.0.3",
+    "express-list-endpoints": "^7.1.0"
+  }
+}
