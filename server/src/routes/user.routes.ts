@@ -10,7 +10,7 @@ const roleService = new RoleService();
 const userService = new UserService(roleService);
 const userController = new UserController(userService);
 
-userRouter.get("/all", [ authJwt.verifyBearerToken, authJwt.isModerator ], userController.getAllUsers);
+userRouter.get("/all", [ authJwt.verifyBearerToken, authJwt.isModeratorOrAdmin ], userController.getAllUsers);
 userRouter.get("/", [ authJwt.verifyBearerToken ], validateGetUserById, userController.getUserById);
 userRouter.post("/", [ authJwt.verifyBearerToken, authJwt.isModeratorOrAdmin ], validateCreateUser, userController.createUser);
 userRouter.put("/", [ authJwt.verifyBearerToken, authJwt.isAdmin ], validateUpdateUser, userController.updateUser);
