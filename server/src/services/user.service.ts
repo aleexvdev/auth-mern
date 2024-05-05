@@ -6,7 +6,7 @@ export class UserService {
 
   constructor (private roleService: RoleService) {}
 
-  getAllUsers = async (): Promise<IUser[]> => {
+  getAllUsers = async (): Promise<IUser[] | null> => {
     return await User.find();
   }
 
