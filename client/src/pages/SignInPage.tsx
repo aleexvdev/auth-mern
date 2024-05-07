@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export const SignInPage = () => {
   return (
-    <main className='bg-white w-full h-screen mx-auto max-w-4xl'>
+    <main className='bg-white w-full h-auto mx-auto max-w-4xl'>
       <section className='relative w-full h-full left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 text-center flex flex-col items-center justify-center'>
         <div className='w-full flex items-center gap-3 px-10'>
           <Link to={"/"}>
