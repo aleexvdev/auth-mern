@@ -12,7 +12,7 @@ export const App = () => {
           <span className="bg-[rgba(74,74,74,.21)] rounded-2xl px-5 py-2 text-white font-medium w-auto text-lg">
             Open Source Project
           </span>
-          <h1 className="text-5xl text-white font-bold w-full text-center mt-9">
+          <h1 className="text-5xl text-white font-bold w-full text-center mt-9 overflow-hidden">
             MERN with Authentication and Authorization
           </h1>
           <p className="font-normal text-2xl text-white w-[80%] text-center mt-10">

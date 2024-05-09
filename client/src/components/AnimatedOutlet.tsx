@@ -11,7 +11,7 @@ export const AnimatedOutlet = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className='bg-[url(`/assets/background/background-home.svg`)] grid grid-cols-full grid-rows-[auto_1fr_auto] min-h-screen h-auto w-screen'
+        className='bg-[url(`/assets/background/background-home.svg`)] grid grid-cols-full grid-rows-[auto_1fr_auto] min-h-screen h-full w-screen overflow-y-auto'
       >
         <NavBar />
         <Outlet />

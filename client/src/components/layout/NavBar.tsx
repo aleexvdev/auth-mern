@@ -23,7 +23,7 @@ export const NavBar = () => {
             }
           >
             <span className="text-lg font-medium tracking-wide hover:text-white">
-              SignIn
+              Sign In
             </span>
           </NavLink>
         </div>
@@ -37,7 +37,7 @@ export const NavBar = () => {
             }
           >
             <span className="text-lg font-medium tracking-wide hover:text-white">
-              SignUp
+              Sign Up
             </span>
           </NavLink>
         </div>
