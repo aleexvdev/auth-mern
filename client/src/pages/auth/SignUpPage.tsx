@@ -1,9 +1,9 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { ButtonAuth } from "../components/Login/ButtonAuth";
+import { ButtonAuth } from "../../components/Login/ButtonAuth";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { InputComponent } from "../components/common/InputComponent";
+import { InputComponent } from "../../components/common/InputComponent";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { SlLock } from "react-icons/sl";
 import { CiUser } from "react-icons/ci";

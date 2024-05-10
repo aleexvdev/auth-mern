@@ -1,13 +1,24 @@
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { ButtonAuth } from "../components/Login/ButtonAuth";
+import { ButtonAuth } from "../../components/Login/ButtonAuth";
 import { FaApple, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { InputComponent } from "../components/common/InputComponent";
+import { InputComponent } from "../../components/common/InputComponent";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { SlLock } from "react-icons/sl";
+import { useState } from "react";
+
+const INITIAL_SIGNIN_STATE = {
+  email: "",
+  password: "",
+};
 
 export const SignInPage = () => {
+
+  const [formState, setFormState] = useState<typeof INITIAL_SIGNIN_STATE>(INITIAL_SIGNIN_STATE);
+
+  const handleChangueValues = (e)
+
   return (
     <section className="w-full h-auto mx-auto max-w-4xl">
       <article>

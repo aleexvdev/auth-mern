@@ -1,2 +1,3 @@
 export * from "./Root"
-export * from "./ErrorPage"
+export * from "./ProtectedRoute"
+export * from "./router"
