@@ -3,12 +3,12 @@ export interface SignInFormData {
   password: string;
 }
 
-/* export interface AuthTypeResponse {
-  code: number;
-  status: boolean;
-  timestamp: string;
-  data: <T> | null;
-} */
+export interface SignUpFormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export interface ErrorResponse {
   status: number;

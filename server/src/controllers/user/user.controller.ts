@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { UserService } from "../../services/user.service";
 import { validationResult } from "express-validator";
 import { errorResponse, successResponse } from "../../helpers/responseHandler";
+import { formatErrors } from "../../utils";
 
 export class UserController {
 
@@ -18,7 +19,10 @@ export class UserController {
 
   getUserById = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) errorResponse(res, 500, 'Bad Request', errors.array());
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
 
     try {
       const userId = req.query.id as string;
@@ -32,7 +36,10 @@ export class UserController {
 
   createUser = async (req: Request, res: Response): Promise<void>  => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) errorResponse(res, 500, 'Bad Request', errors.array());
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
 
     try {
       const createdUser = await this.userService.createUser(req.body);
@@ -45,7 +52,10 @@ export class UserController {
 
   updateUser = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) errorResponse(res, 500, 'Bad Request', errors.array());
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
 
     try {
       const userId = req.query.id as string;
@@ -59,7 +69,10 @@ export class UserController {
 
   deleteUser = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) errorResponse(res, 500, 'Bad Request', errors.array());
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
 
     try {
       const userId = req.query.id as string;

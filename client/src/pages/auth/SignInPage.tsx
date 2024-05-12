@@ -1,4 +1,3 @@
-// import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { ButtonAuth } from "../../components/Login/ButtonAuth";
 import { FaApple, FaFacebook, FaSpinner } from "react-icons/fa";
@@ -67,6 +66,7 @@ export const SignInPage = () => {
                   rules={{ required: "El email es requerido" }}
                   register={register}
                   errors={errors}
+                  instructions={false}
                 />
                 <InputComponent
                   key={"PasswordComponent"}
@@ -79,6 +79,7 @@ export const SignInPage = () => {
                   rules={{ required: "La contraseña es requerida" }}
                   register={register}
                   errors={errors}
+                  instructions={true}
                 />
               </div>
               <div className="w-full flex items-center justify-between mt-0">
@@ -105,7 +106,7 @@ export const SignInPage = () => {
               <div className="w-full my-6">
                 <button
                   type="submit"
-                  className="w-full bg-blue-800 hover:bg-blue-700 text-white rounded-lg py-2 px-3 flex items-center justify-center"
+                  className="w-full bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-2 px-3 flex items-center justify-center"
                   disabled={isLoading}
                 >
                   {isLoading ? (

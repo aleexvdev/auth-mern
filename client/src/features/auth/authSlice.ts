@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserType } from "../../types/user.type.";
 import { RootState } from "../../app/store";
-import { SignInFormData } from "../../types/auth.type";
+import { SignInFormData, SignUpFormData } from "../../types/auth.type";
 import { AuthAPI } from "../../service/authService/AuthAPI";
 
 interface AuthState {
@@ -29,6 +29,15 @@ export const signIn = createAsyncThunk<{ message: string; detail: { user: UserTy
   }
 });
 
+export const signUp = createAsyncThunk<{ message: string; detail: UserType }, SignUpFormData, { rejectValue: string }>("auth/sign-up", async (data, thunkAPI) => {
+  try {
+    const response = await AuthAPI.signUpAuth(data);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Authentication Error");
+  }
+});
+
 
 export const authSlice = createSlice({
   name: "auth",
@@ -40,6 +49,13 @@ export const authSlice = createSlice({
       state.user = null;
       sessionStorage.removeItem('token');
     },
+    resetState: (state) => {
+      state.isAuthenticated = false;
+      state.token = null;
+      state.user = null;
+      state.error = null;
+      state.isLoading = false;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -61,9 +77,24 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload || "Unknown Error";
       })
+      .addCase(signUp.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        signUp.fulfilled,
+        (state, action: PayloadAction<{ message: string; detail: UserType; }>) => {
+          state.isLoading = false;
+          console.log(action.payload.message)
+        }
+      )
+      .addCase(signUp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Unknown Error";
+      })
   }
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, resetState } = authSlice.actions;
 export const selectAuth = (state: RootState) => state.auth;
 export default authSlice.reducer;

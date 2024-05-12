@@ -16,6 +16,7 @@ interface InputComponentProps {
   rules: RegisterOptions;
   register: UseFormRegister<any>;
   errors: FieldErrors<any>;
+  instructions: boolean;
 }
 
 export const InputComponent = ({
@@ -27,6 +28,7 @@ export const InputComponent = ({
   rules,
   register,
   errors,
+  instructions
 }: InputComponentProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -37,10 +39,10 @@ export const InputComponent = ({
   return (
     <div className="w-full flex flex-col">
       <div>
-        <label htmlFor={name} className="text-white text-sm pl-2 font-medium tracking-wide flex items-center gap-x-2">
-          <span className="mb-1">{label}</span> { type === "password" && <IoAlertCircle className="w-5 h-5 mb-1" /> }
+        <label htmlFor={name} className="text-white text-sm pl-1 font-medium tracking-wide flex items-center gap-x-2">
+          <span className="mb-1">{label}</span> { instructions && <IoAlertCircle className="w-5 h-5 mb-1" /> }
         </label>
-        <div className="w-full flex items-center bg-white rounded-lg shadow-sm mt-1">
+        <div className="w-full flex items-center bg-white rounded-md shadow-sm mt-1">
           <span className="pl-3 pr-2 text-gray-800 border-r border-gray-300">
             <Icon className="w-6 h-5" />
           </span>
@@ -50,7 +52,7 @@ export const InputComponent = ({
             }
             placeholder={placeholder}
             className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
-            {...register(name, rules)}
+            {...register(name,  rules)}
           />
           {type === "password" && (
             <button

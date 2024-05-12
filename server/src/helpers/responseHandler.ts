@@ -36,8 +36,13 @@ const successResponse = (res: Response, message: string, data: any): void => {
   res.status(200).json(response);
 };
 
-const errorResponse = (res: Response, code: number, message: string, errors: any = null): void => {
+/* const errorResponse = (res: Response, code: number, message: string, errors: any = null): void => {
   const response = defaultStructure(code, message, errors, false);
+  res.status(code).json(response);
+}; */
+
+const errorResponse = (res: Response, code: number, message: string, errors: any = null): void => {
+  const response = defaultStructure(code, message, errors ? { error: errors } : null, false);
   res.status(code).json(response);
 };
 
