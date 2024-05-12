@@ -22,7 +22,8 @@ export class AuthService {
       newUser.roles = [defaultRole._id];
     }
     const user = await newUser.save();
-    return user;
+    const token = await generateToken(user._id.toString(), user.email, user.roles);
+    return { user: user, token: token };
   }
 
   signInHandler = async (userData: SignInData) => {

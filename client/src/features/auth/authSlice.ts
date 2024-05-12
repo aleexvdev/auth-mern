@@ -10,6 +10,7 @@ interface AuthState {
   user: UserType | null;
   error: string | null;
   isLoading: boolean;
+  success: boolean;
 }
 
 const initialState: AuthState = {
@@ -17,7 +18,8 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   error: null,
-  isLoading: false
+  isLoading: false,
+  success: false
 };
 
 export const signIn = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignInFormData, { rejectValue: string }>("auth/sign-in", async (data, thunkAPI) => {
@@ -29,7 +31,7 @@ export const signIn = createAsyncThunk<{ message: string; detail: { user: UserTy
   }
 });
 
-export const signUp = createAsyncThunk<{ message: string; detail: UserType }, SignUpFormData, { rejectValue: string }>("auth/sign-up", async (data, thunkAPI) => {
+export const signUp = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignUpFormData, { rejectValue: string }>("auth/sign-up", async (data, thunkAPI) => {
   try {
     const response = await AuthAPI.signUpAuth(data);
     return response.data;
@@ -47,6 +49,9 @@ export const authSlice = createSlice({
       state.isAuthenticated = false;
       state.token = null;
       state.user = null;
+      state.error = null;
+      state.isLoading = false;
+      state.success = false;
       sessionStorage.removeItem('token');
     },
     resetState: (state) => {
@@ -55,6 +60,7 @@ export const authSlice = createSlice({
       state.user = null;
       state.error = null;
       state.isLoading = false;
+      state.success = false;
     }
   },
   extraReducers: (builder) => {
@@ -62,12 +68,15 @@ export const authSlice = createSlice({
       .addCase(signIn.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+        state.success = false;
       })
       .addCase(
         signIn.fulfilled,
         (state, action: PayloadAction<{ message: string; detail: { user: UserType; token: string } }>) => {
           const { detail } = action.payload;
           state.isAuthenticated = true;
+          state.success = true;
+          state.isLoading = false;
           state.token = detail.token;
           state.user = detail.user;
           sessionStorage.setItem('token', detail.token);
@@ -75,21 +84,31 @@ export const authSlice = createSlice({
       )
       .addCase(signIn.rejected, (state, action) => {
         state.isLoading = false;
+        state.success = false;
+        state.isAuthenticated = false;
         state.error = action.payload || "Unknown Error";
       })
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
         state.error = null;
+        state.success = false;
       })
       .addCase(
         signUp.fulfilled,
-        (state, action: PayloadAction<{ message: string; detail: UserType; }>) => {
+        (state, action: PayloadAction<{ message: string; detail: { user: UserType; token: string } }>) => {
+          const { detail } = action.payload;
           state.isLoading = false;
-          console.log(action.payload.message)
+          state.isAuthenticated = true;
+          state.success = true;
+          state.token = detail.token;
+          state.user = detail.user;
+          sessionStorage.setItem('token', detail.token);
         }
       )
       .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false;
+        state.success = false;
+        state.isAuthenticated = false;
         state.error = action.payload || "Unknown Error";
       })
   }

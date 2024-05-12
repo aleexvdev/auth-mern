@@ -38,7 +38,7 @@ export const InputComponent = ({
 
   return (
     <div className="w-full flex flex-col">
-      <div>
+      <div className="">
         <label htmlFor={name} className="text-white text-sm pl-1 font-medium tracking-wide flex items-center gap-x-2">
           <span className="mb-1">{label}</span> { instructions && <IoAlertCircle className="w-5 h-5 mb-1" /> }
         </label>
