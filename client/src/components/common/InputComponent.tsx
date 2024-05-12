@@ -1,22 +1,22 @@
 import { useState } from "react";
+import { RegisterOptions, FieldErrors, UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface InputComponentProps {
   icon: IconType;
-  type: string;
+  type?: string;
+  name: string;
   placeholder: string;
-  value: string;
+  id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  rules: RegisterOptions;
+  register: UseFormRegister<any>;
+  errors: FieldErrors<any>;
 }
 
-export const InputComponent = ({
-  icon: Icon,
-  type,
-  placeholder,
-  value,
-  onChange,
-}: InputComponentProps) => {
+export const InputComponent = ({ icon: Icon, type = 'text', name, placeholder, rules, register, errors }: InputComponentProps) => {
+  // const { register, formState: { errors } } = useFormContext();
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -32,9 +32,8 @@ export const InputComponent = ({
         <input
           type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
           placeholder={placeholder}
-          value={value}
-          onChange={onChange}
           className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
+          {...register(name, rules)}
         />
         {type === 'password' && (
           <button
@@ -46,6 +45,8 @@ export const InputComponent = ({
           </button>
         )}
       </div>
+      {errors[name] && <span>{errors[name]?.message?.toString()}</span>}
+      {/* {errors[name] && <span>{errors[name]?.message?.toString()}</span>} */}
     </div>
   );
 };
