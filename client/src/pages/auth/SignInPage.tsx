@@ -1,4 +1,4 @@
-import { IoIosArrowRoundBack } from "react-icons/io";
+// import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import { ButtonAuth } from "../../components/Login/ButtonAuth";
 import { FaApple, FaFacebook, FaSpinner } from "react-icons/fa";
@@ -16,7 +16,7 @@ import { useEffect } from "react";
 export const SignInPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, error } = useSelector(selectAuth);
+  const { isAuthenticated, isLoading } = useSelector(selectAuth);
   const {
     register,
     handleSubmit,
@@ -44,23 +44,13 @@ export const SignInPage = () => {
   };
 
   return (
-    <section className="w-full h-auto mx-auto max-w-4xl bg-black">
+    <section className="w-full h-auto mx-auto max-w-4xl">
       <article>
-        <div className="w-full flex items-center">
-          <Link to={"/"}>
-            <button className="w-full flex items-center gap-3 bg-[#4a4a4a36] rounded-xl py-2 px-5">
-              <IoIosArrowRoundBack className="w-7 h-7 text-white" />
-              <span className="rounded-2xl text-white font-medium w-auto text-lg">
-                Back
-              </span>
-            </button>
-          </Link>
-        </div>
-        <div className="w-full h-full flex flex-col items-center justify-center my-5 bg-[#4a4a4a36] rounded-2xl py-10 px-8">
+        <div className="w-full h-full flex flex-col items-center justify-center my-5 bg-gray-second rounded-2xl py-10 px-8">
           <div className="w-full flex items-center justify-center gap-x-2">
             <h1 className="text-white font-bold text-4xl">Sign In</h1>
           </div>
-          <p className="w-full text-white font-medium text-lg text-center mt-6">
+          <p className="w-full text-white font-medium text-lg text-center mt-3">
             Welcome back, you've been missed!
           </p>
           <div className="w-full max-w-sm">
@@ -70,6 +60,7 @@ export const SignInPage = () => {
                   key={"EmailComponent"}
                   id="email"
                   name="email"
+                  label="Email"
                   icon={MdOutlineAlternateEmail}
                   type="email"
                   placeholder="example@example.com"
@@ -81,6 +72,7 @@ export const SignInPage = () => {
                   key={"PasswordComponent"}
                   id="password"
                   name="password"
+                  label="Password"
                   icon={SlLock}
                   type="password"
                   placeholder="Password"
@@ -88,7 +80,6 @@ export const SignInPage = () => {
                   register={register}
                   errors={errors}
                 />
-                {errors.password && <span>{errors.password.message}</span>}
               </div>
               <div className="w-full flex items-center justify-between mt-0">
                 <label
@@ -114,7 +105,7 @@ export const SignInPage = () => {
               <div className="w-full my-6">
                 <button
                   type="submit"
-                  className="w-full bg-blue-900 hover:bg-[#0031e0] text-white rounded-lg py-2 px-3 flex items-center justify-center"
+                  className="w-full bg-blue-800 hover:bg-blue-700 text-white rounded-lg py-2 px-3 flex items-center justify-center"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -127,7 +118,6 @@ export const SignInPage = () => {
                   )}
                 </button>
               </div>
-              {error && <div>{error}</div>}
             </form>
           </div>
           <div className="relative flex items-center w-[70%]">
@@ -158,12 +148,12 @@ export const SignInPage = () => {
             />
           </div>
           <div className="mt-4 w-full flex items-center justify-center gap-2">
-            <span className="font-medium text-base text-white">
+            <span className="font-medium text-base text-gray-200">
               Don't have an account?
             </span>
             <Link to={"/sign-up"}>
               <button className="">
-                <span className="text-base text-[#043aff] hover:text-[#0031e0] font-semibold">
+                <span className="text-base text-white hover:text-blue-700 font-semibold">
                   Sign Up
                 </span>
               </button>

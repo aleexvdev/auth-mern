@@ -2,11 +2,14 @@ import { useState } from "react";
 import { RegisterOptions, FieldErrors, UseFormRegister } from "react-hook-form";
 import { IconType } from "react-icons";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { GoAlert } from "react-icons/go";
+import { IoAlertCircle } from "react-icons/io5";
 
 interface InputComponentProps {
   icon: IconType;
   type?: string;
   name: string;
+  label: string;
   placeholder: string;
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -15,8 +18,16 @@ interface InputComponentProps {
   errors: FieldErrors<any>;
 }
 
-export const InputComponent = ({ icon: Icon, type = 'text', name, placeholder, rules, register, errors }: InputComponentProps) => {
-  // const { register, formState: { errors } } = useFormContext();
+export const InputComponent = ({
+  icon: Icon,
+  type = "text",
+  name,
+  label,
+  placeholder,
+  rules,
+  register,
+  errors,
+}: InputComponentProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -24,29 +35,43 @@ export const InputComponent = ({ icon: Icon, type = 'text', name, placeholder, r
   };
 
   return (
-    <div className='w-full flex flex-col'>
-      <div className="w-full flex items-center bg-white rounded-xl shadow-sm">
-        <span className="pl-3 pr-2 text-gray-600 border-r border-gray-300">
-          <Icon className="w-6 h-5" />
-        </span>
-        <input
-          type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
-          placeholder={placeholder}
-          className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
-          {...register(name, rules)}
-        />
-        {type === 'password' && (
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="pr-3 text-gray-600 focus:outline-none"
-          >
-            {showPassword ? <FaEyeSlash className="w-5 h-5" /> : <FaEye className="w-5 h-5" />}
-          </button>
-        )}
+    <div className="w-full flex flex-col">
+      <div>
+        <label htmlFor={name} className="text-white text-sm pl-2 font-medium tracking-wide flex items-center gap-x-2">
+          <span className="mb-1">{label}</span> { type === "password" && <IoAlertCircle className="w-5 h-5 mb-1" /> }
+        </label>
+        <div className="w-full flex items-center bg-white rounded-lg shadow-sm mt-1">
+          <span className="pl-3 pr-2 text-gray-800 border-r border-gray-300">
+            <Icon className="w-6 h-5" />
+          </span>
+          <input
+            type={
+              type === "password" ? (showPassword ? "text" : "password") : type
+            }
+            placeholder={placeholder}
+            className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
+            {...register(name, rules)}
+          />
+          {type === "password" && (
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="pr-3 text-gray-800 focus:outline-none"
+            >
+              {showPassword ? (
+                <FaEyeSlash className="w-5 h-5" />
+              ) : (
+                <FaEye className="w-5 h-5" />
+              )}
+            </button>
+          )}
+        </div>
       </div>
-      {errors[name] && <span>{errors[name]?.message?.toString()}</span>}
-      {/* {errors[name] && <span>{errors[name]?.message?.toString()}</span>} */}
+      {errors[name] && (
+        <span className="text-white text-sm pt-2 flex items-center gap-x-2">
+          <GoAlert className="w-4 h-4 text-yellow-400" /> {errors[name]?.message?.toString()}
+        </span>
+      )}
     </div>
   );
 };

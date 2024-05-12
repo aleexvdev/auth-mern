@@ -15,10 +15,24 @@ export const NavBar = () => {
       <nav className="w-full flex items-center justify-end gap-10">
         <div>
           <NavLink
+            to={"/"}
+            className={({ isActive }) =>
+              isActive
+                ? "text-white"
+                : "text-gray-500"
+            }
+          >
+            <span className="text-lg font-medium tracking-wide hover:text-white">
+              Home
+            </span>
+          </NavLink>
+        </div>
+        <div>
+          <NavLink
             to={"/sign-in"}
             className={({ isActive }) =>
               isActive
-                ? "text-white shadow-sm shadow-gray-600"
+                ? "text-white"
                 : "text-gray-500"
             }
           >
@@ -32,7 +46,7 @@ export const NavBar = () => {
             to={"/sign-up"}
             className={({ isActive }) =>
               isActive
-                ? "text-white shadow-sm shadow-gray-600"
+                ? "text-white"
                 : "text-gray-500"
             }
           >

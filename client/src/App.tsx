@@ -9,7 +9,7 @@ export const App = () => {
     <section className="w-full h-full mx-auto max-w-7xl">
       <article className="relative w-full h-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center flex flex-col items-center justify-center">
         <div className="w-full h-full flex flex-col items-center justify-center">
-          <span className="bg-[rgba(74,74,74,.21)] rounded-2xl px-5 py-2 text-white font-medium w-auto text-lg">
+          <span className="bg-card-main rounded-2xl px-5 py-2 text-white font-medium w-auto text-lg">
             Open Source Project
           </span>
           <h1 className="text-5xl text-white font-bold w-full text-center mt-9 overflow-hidden">
@@ -21,22 +21,22 @@ export const App = () => {
           <div className="w-full flex items-center justify-center gap-5 mt-16">
             <CardHome
               icon={GiPadlock}
-              className="text-[#7B00FE] w-10 h-10"
+              className="text-white w-10 h-10"
               title="Implemented Strong Security Measures"
             />
             <CardHome
               icon={SiAuthelia}
-              className="text-[#7B00FE] w-10 h-10"
+              className="text-white w-10 h-10"
               title="Forgot Password, SSO, & MFA Included"
             />
             <CardHome
               icon={HiAdjustmentsHorizontal}
-              className="text-[#7B00FE] w-10 h-10"
+              className="text-white w-10 h-10"
               title="Customizable e-mail templates, cookies, & others."
             />
             <CardHome
               icon={RxDashboard}
-              className="text-[#7B00FE] w-10 h-10"
+              className="text-white w-10 h-10"
               title="and more..."
             />
           </div>

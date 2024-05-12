@@ -1,9 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Outlet } from 'react-router-dom';
-import { NavBar } from './layout/NavBar';
-import { Footer } from './layout/Footer';
+import { NavBar } from '../components/layout/NavBar';
+import { Outlet } from 'react-router';
+import { Footer } from '../components/layout/Footer';
 
-export const AnimatedOutlet = () => {
+export const PublicLayout = () => {
   return (
     <AnimatePresence>
       <motion.main
@@ -11,7 +11,7 @@ export const AnimatedOutlet = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className='grid grid-cols-full grid-rows-[auto_1fr_auto] min-h-screen h-full w-screen overflow-y-auto'
+        className='relative w-screen h-screen min-h-screen'
       >
         <NavBar />
         <Outlet />

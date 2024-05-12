@@ -9,7 +9,7 @@ interface CardHomeProps {
 
 export const CardHome = ({ icon: Icon, className, title }: CardHomeProps) => {
   return (
-    <div className='bg-[#1b2844] h-full rounded-lg flex flex-col w-44 py-8 px-4'>
+    <div className='bg-card-main h-full rounded-lg flex flex-col w-44 py-8 px-4'>
       <div className='flex items-center justify-center'>
         <Icon className={className} />
       </div>

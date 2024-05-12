@@ -9,6 +9,11 @@ export default {
   ],  
   theme: {
     extend: {
+      colors: {
+        'gray-primary': '#dedede36',
+        'gray-second': '#42424236',
+        'card-main': '#1b2539',
+      }
     },
   },
   variants: {

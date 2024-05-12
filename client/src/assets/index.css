@@ -11,9 +11,8 @@
 }
 
 body {
-  background: white;
   /* background: #111827; */
-  /* background-image: url('/assets/background/background-home.svg'); */
+  background-image: url('/assets/background/background-home.svg');
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
