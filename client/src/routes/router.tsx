@@ -6,39 +6,27 @@ import { SignUpPage } from "../pages/auth/SignUpPage";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
 import { ErrorPage } from "../pages/error/ErrorPage";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Root } from "./Root";
+import { PublicLayout } from "../layout/PublicLayout";
+import { PrivateLayout } from "../layout/PrivateLayout";
 
 const routerConfig = [
   {
     path: '/',
-    element: <Root />,
+    element: <PublicLayout />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        index: true,
-        path: '/',
-        element: <App />
-      },
-      {
-        path: '/sign-in',
-        element: <SignInPage />
-      },
-      {
-        path: '/sign-up',
-        element: <SignUpPage />
-      },
-      {
-        path: '/dashboard',
-        element: (
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        )
-      },
-      {
-        path: '*',
-        element: <Navigate to="/" />
-      },
+      { index: true, path: '/', element: <App /> },
+      { path: '/sign-in', element: <SignInPage /> },
+      { path: '/sign-up', element: <SignUpPage /> },
+      { path: '*', element: <Navigate to={"/"} /> }
+    ]
+  },
+  {
+    path: '/dashboard',
+    element: <ProtectedRoute><PrivateLayout /></ProtectedRoute>,
+    children: [
+      { index: true, path: '/dashboard', element: <DashboardPage /> },
+      { path: '*', element: <Navigate to={"/dashboard"} /> }
     ]
   }
 ];

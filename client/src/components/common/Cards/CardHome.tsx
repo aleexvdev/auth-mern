@@ -1,13 +1,13 @@
 import { IconType } from 'react-icons';
 
 interface CardHomeProps {
-  icon: IconType;
+  Icon: IconType;
   className?: string;
   title: string;
 }
 
 
-export const CardHome = ({ icon: Icon, className, title }: CardHomeProps) => {
+export const CardHome = ({ Icon, className, title }: CardHomeProps) => {
   return (
     <div className='bg-card-main h-full rounded-lg flex flex-col w-44 py-8 px-4'>
       <div className='flex items-center justify-center'>

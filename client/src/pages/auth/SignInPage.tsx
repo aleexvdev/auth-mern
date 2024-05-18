@@ -16,7 +16,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export const SignInPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, success } = useSelector(selectAuth);
+  const { isAuthenticated, isLoading, success, error } = useSelector(selectAuth);
   const {
     register,
     handleSubmit,
@@ -39,7 +39,7 @@ export const SignInPage = () => {
     try {
       await dispatch(signIn(data));
     } catch (error) {
-      console.error(`Àuthentication Error: `, error);
+      console.error('Authentication Error: ', error);
     }
   };
 
@@ -137,6 +137,15 @@ export const SignInPage = () => {
                   </span>
                 </button>
               </motion.div>
+              {error && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3"
+                  role="alert"
+                >
+                  <strong className="font-bold">Error:</strong>
+                  <span className="block sm:inline pl-2">{error}</span>
+                </div>
+              )}
               <motion.div
                 className="w-full my-8"
                 initial={{ opacity: 0, y: 20 }}
@@ -269,3 +278,7 @@ export const SignInPage = () => {
     </motion.section>
   );
 };
+/* 
+
+
+*/

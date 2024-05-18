@@ -10,6 +10,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const location = useLocation();
-  if (!isAuthenticated) return <Navigate to={"/sign-in"} state={{ from: location }} replace />
+  if (!isAuthenticated && !sessionStorage.getItem('token')) {
+    return <Navigate to={"/sign-in"} state={{ from: location }} replace />
+  }
   return <>{children}</>
 }

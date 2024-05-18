@@ -20,22 +20,22 @@ export const App = () => {
           </p>
           <div className="w-full flex items-center justify-center gap-5 mt-16">
             <CardHome
-              icon={GiPadlock}
+              Icon={GiPadlock}
               className="text-white w-10 h-10"
               title="Implemented Strong Security Measures"
             />
             <CardHome
-              icon={SiAuthelia}
+              Icon={SiAuthelia}
               className="text-white w-10 h-10"
               title="Forgot Password, SSO, & MFA Included"
             />
             <CardHome
-              icon={HiAdjustmentsHorizontal}
+              Icon={HiAdjustmentsHorizontal}
               className="text-white w-10 h-10"
               title="Customizable e-mail templates, cookies, & others."
             />
             <CardHome
-              icon={RxDashboard}
+              Icon={RxDashboard}
               className="text-white w-10 h-10"
               title="and more..."
             />

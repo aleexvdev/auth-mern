@@ -8,7 +8,7 @@ interface AuthState {
   token: string | null;
   isAuthenticated: boolean;
   user: UserType | null;
-  error: string | null;
+  error: any | null;
   isLoading: boolean;
   success: boolean;
 }
@@ -22,12 +22,15 @@ const initialState: AuthState = {
   success: false
 };
 
-export const signIn = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignInFormData, { rejectValue: string }>("auth/sign-in", async (data, thunkAPI) => {
+export const signIn = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignInFormData, { rejectValue: any }>("auth/sign-in", async (data, thunkAPI) => {
   try {
     const response = await AuthAPI.signInAuth(data);
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
     return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue("Authentication Error");
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -79,14 +82,17 @@ export const authSlice = createSlice({
           state.isLoading = false;
           state.token = detail.token;
           state.user = detail.user;
+          state.error = null;
           sessionStorage.setItem('token', detail.token);
         }
       )
-      .addCase(signIn.rejected, (state, action) => {
+      .addCase(signIn.rejected, (state, action: PayloadAction<{ message: string; detail: { error: string } }>) => {
         state.isLoading = false;
         state.success = false;
         state.isAuthenticated = false;
-        state.error = action.payload || "Unknown Error";
+        state.token = null;
+        state.user = null;
+        state.error = action.payload.detail.error || null;
       })
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
