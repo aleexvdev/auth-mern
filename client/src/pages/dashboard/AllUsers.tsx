@@ -53,7 +53,7 @@ export const AllUsers = () => {
         <div className="w-1/2 flex items-center justify-between bg-white rounded-lg h-12">
           <input
             type="text"
-            placeholder="Search users by username, email or ID..."
+            placeholder="Search users by username or email..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="border-none border-gray-300 rounded-md px-4 py-2 w-full outline-none"
@@ -134,7 +134,7 @@ export const AllUsers = () => {
                   {user.email}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.roles.map((role) => (
+                  {user.roles.map((role: string) => (
                     <span key={role} className="capitalize">
                       {RoleAPI.getRoleById(role.toString())?.name}
                     </span>

@@ -9,8 +9,12 @@ export interface UserType {
 }
 
 export interface UserState {
-  users: UserType[] | null;
+  users: WritableDraft<UserType>[] | null;
   isLoading: boolean;
   error: any | null;
   success: boolean;
+}
+
+export interface bodyQueryUser {
+  token: string;
 }

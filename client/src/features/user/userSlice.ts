@@ -4,7 +4,7 @@ import { UserAPI } from "../../service/userService/UserAPI";
 import { RootState } from "../../app/store";
 
 const initialState: UserState = {
-  users: null,
+  users: [],
   error: null,
   isLoading: false,
   success: false
@@ -26,6 +26,22 @@ export const allUsers = createAsyncThunk<
   }
 });
 
+export const getUserbytoken = createAsyncThunk<
+  { message: string; detail: UserType },
+  undefined,
+  { rejectValue: any }
+>("/users/verify-user", async (_, thunkAPI) => {
+  try {
+    const response = await UserAPI.getUserByToken();
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
+
 
 export const userSlice = createSlice({
   name: "user",
@@ -38,7 +54,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(allUsers.pending, (state) => {
-        state.users = null;
+        state.users = [];
         state.isLoading = true;
         state.error = null;
         state.success = false;
@@ -47,12 +63,33 @@ export const userSlice = createSlice({
         message: string;
         detail: UserType[]
       }>) => {
-        state.users = action.payload.detail;
+        state.users = state.users ? [...state.users, ...action.payload.detail] : [...action.payload.detail];
         state.isLoading = false;
         state.success = true;
         state.error = null;
       })
       .addCase(allUsers.rejected, (state, action) => {
+        state.users = null;
+        state.isLoading = false;
+        state.success = false;
+        state.error = action.payload || "Unknown Error";
+      })
+      .addCase(getUserbytoken.pending, (state) => {
+        state.users = null;
+        state.isLoading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(getUserbytoken.fulfilled, (state, action: PayloadAction<{
+        message: string;
+        detail: UserType
+      }>) => {
+        state.users = state.users ? [...state.users, action.payload.detail] : [action.payload.detail];
+        state.isLoading = false;
+        state.success = true;
+        state.error = null;
+      })
+      .addCase(getUserbytoken.rejected, (state, action) => {
         state.users = null;
         state.isLoading = false;
         state.success = false;

@@ -35,14 +35,12 @@ export class UserController {
   }
 
   getUserByToken = async (req: Request, res: Response) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const formattedErrors = formatErrors(errors.array());
-      return errorResponse(res, 500, 'Bad Request', formattedErrors);
-    }
-
     try {
-      const token = req.query.token as string;
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return errorResponse(res, 401, 'Unauthorized', 'Invalid token format');
+      }
+      const token = authHeader.split(' ')[1];
       const user = await this.userService.getUserByToken(token);
       if (!user) errorResponse(res, 404, 'User not found', 'User not found');
       successResponse(res, 'User retrieved successfully', user);
@@ -51,7 +49,7 @@ export class UserController {
     }
   }
 
-  createUser = async (req: Request, res: Response): Promise<void>  => {
+  createUser = async (req: Request, res: Response): Promise<void> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const formattedErrors = formatErrors(errors.array());

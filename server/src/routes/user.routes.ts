@@ -2,7 +2,7 @@ import { Router } from "express";
 import { RoleService } from "../services/role.service";
 import { UserService } from "../services/user.service";
 import { UserController } from "../controllers/user/user.controller";
-import { validateCreateUser, validateDeleteUser, validateGetUserById, validateUpdateUser, validateUserByToken } from "../validators/user.validator";
+import { validateCreateUser, validateDeleteUser, validateGetUserById, validateUpdateUser } from "../validators/user.validator";
 import { authJwt } from "../middlewares";
 
 const userRouter = Router();
@@ -15,6 +15,6 @@ userRouter.get("/", [ authJwt.verifyBearerToken ], validateGetUserById, userCont
 userRouter.post("/", [ authJwt.verifyBearerToken, authJwt.isModeratorOrAdmin ], validateCreateUser, userController.createUser);
 userRouter.put("/", [ authJwt.verifyBearerToken, authJwt.isAdmin ], validateUpdateUser, userController.updateUser);
 userRouter.delete("/", [ authJwt.verifyBearerToken, authJwt.isAdmin ], validateDeleteUser, userController.deleteUser);
-userRouter.post("/verify-user", [ authJwt.verifyBearerToken ], validateUserByToken, userController.getUserByToken);
+userRouter.get("/verify-user", [ authJwt.verifyBearerToken ], userController.getUserByToken);
 
 export default userRouter;

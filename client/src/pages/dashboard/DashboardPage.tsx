@@ -1,27 +1,22 @@
 import { motion } from "framer-motion";
 import { UserCard } from "../../components/User/UserCard";
-import { useSelector } from "react-redux";
-import { selectAuth } from "../../features/auth/authSlice";
-import { useEffect, useState } from "react";
-
-const INITIAL_USER: {
-  username: string;
-  email: string;
-  roles: string[];
-} = {
-  username: "",
-  email: "",
-  roles: []
-}
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getUserbytoken, selectUser } from "../../features/user/userSlice";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 export const DashboardPage = () => {
 
-  const { user } = useSelector(selectAuth);
-  const [userState, setUserState] = useState(INITIAL_USER);
+  const dispatch = useDispatch();
+  const { users } = useSelector(selectUser);
 
   useEffect(() => {
-    user && setUserState({ username: user.username, email: user.email, roles: user.roles });
-  }, [user]);
+    dispatch(getUserbytoken() as unknown as UnknownAction);
+  }, [dispatch]);
+  
+  if (!users) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <motion.section
@@ -49,9 +44,9 @@ export const DashboardPage = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           <UserCard
-            username={userState.username}
-            roles={userState.roles}
-            email={userState.email}
+            username={users[0].username}
+            roles={users[0].roles}
+            email={users[0].email}
           />
         </motion.div>
       </article>
