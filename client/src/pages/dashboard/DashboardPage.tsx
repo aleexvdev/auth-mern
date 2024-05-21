@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { UserCard } from "../../components/User/UserCard";
 
 export const DashboardPage = () => {
-  
+
   return (
     <motion.section
       className="w-full h-full mx-auto max-w-4xl"
@@ -22,14 +22,17 @@ export const DashboardPage = () => {
             Welcome to your Dashboard
           </h1>
         </motion.div>
-        <div
+        <motion.div
           className="my-10"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
         >
           <UserCard
             username="John Doe"
             role="Administrator"
           />
-        </div>
+        </motion.div>
       </article>
     </motion.section>
   );

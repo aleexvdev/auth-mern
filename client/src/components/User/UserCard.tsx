@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Avatar } from "./Avatar";
 
 interface UserCardProps {
   username: string;
@@ -8,7 +9,7 @@ interface UserCardProps {
 export const UserCard = ({ username, role }: UserCardProps) => {
   return (
     <motion.div
-      className="bg-gray-800 rounded-lg p-6 shadow-lg"
+      className="bg-gray-800 rounded-lg p-6 shadow-lg min-h-20 overflow-hidden"
       initial={{ opacity: 0, scale: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
@@ -20,11 +21,7 @@ export const UserCard = ({ username, role }: UserCardProps) => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
         >
-          {/* <img
-            src={avatar}
-            alt="Avatar"
-            className="w-12 h-12 rounded-full mr-4"
-          /> */}
+          <Avatar key={username} username={username} />
           <div>
             <h2 className="text-white font-semibold text-lg">{username}</h2>
             <p className="text-gray-400">{role}</p>
