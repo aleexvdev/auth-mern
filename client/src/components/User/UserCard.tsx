@@ -10,9 +10,9 @@ interface UserCardProps {
 
 export const UserCard = ({ username, roles, email }: UserCardProps) => {
 
-  const rolesText = roles.map((rol) => {
-    const roleName = RoleAPI.getRoleById(rol);
-    return <span key={rol} className="capitalize text-base font-medium">{roleName?.name}</span>;
+  const rolesText = roles.map((role) => {
+    const roleName = RoleAPI.getRoleById(role)?.name;
+    return <span key={role} className="capitalize text-base font-medium">{roleName}</span>;
   });
 
   return (

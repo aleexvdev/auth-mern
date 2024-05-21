@@ -12,7 +12,8 @@ const initialState: UserState = {
 
 export const allUsers = createAsyncThunk<
   { message: string; detail: UserType[] },
-  { rejectedValue: any }
+  undefined,
+  { rejectValue: any }
 >("users/all", async (_, thunkAPI) => {
   try {
     const response = await UserAPI.getUsers();
@@ -38,15 +39,23 @@ export const userSlice = createSlice({
     builder
       .addCase(allUsers.pending, (state) => {
         state.users = null;
+        state.isLoading = true;
+        state.error = null;
+        state.success = false;
       })
       .addCase(allUsers.fulfilled, (state, action: PayloadAction<{
         message: string;
         detail: UserType[]
       }>) => {
         state.users = action.payload.detail;
+        state.isLoading = false;
+        state.success = true;
+        state.error = null;
       })
       .addCase(allUsers.rejected, (state, action) => {
         state.users = null;
+        state.isLoading = false;
+        state.success = false;
         state.error = action.payload || "Unknown Error";
       });
   }

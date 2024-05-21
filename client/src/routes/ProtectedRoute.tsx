@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate, useLocation } from 'react-router';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppSelector } from '../app/hooks';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

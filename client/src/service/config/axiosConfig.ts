@@ -19,6 +19,21 @@ const errorHandler = (error: AxiosError) => {
   }
 }
 
+const isAuthRoute = (url: string) => {
+  return url.includes("/sign-in") || url.includes("/sign-up");
+};
+
+apiBaseUrl.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token && !isAuthRoute(config.url || "")) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 apiBaseUrl.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
