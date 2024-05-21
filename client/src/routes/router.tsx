@@ -8,6 +8,7 @@ import { ErrorPage } from "../pages/error/ErrorPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicLayout } from "../layout/PublicLayout";
 import { PrivateLayout } from "../layout/PrivateLayout";
+import { AllUsers } from "../pages/dashboard/AllUsers";
 
 const routerConfig = [
   {
@@ -26,7 +27,8 @@ const routerConfig = [
     element: <ProtectedRoute><PrivateLayout /></ProtectedRoute>,
     children: [
       { index: true, path: '/dashboard', element: <DashboardPage /> },
-      { path: '*', element: <Navigate to={"/dashboard"} /> }
+      { path: '*', element: <Navigate to={"/dashboard"} /> },
+      { path: '/dashboard/users', element: <AllUsers /> }
     ]
   }
 ];

@@ -3,10 +3,16 @@ import { Avatar } from "./Avatar";
 
 interface UserCardProps {
   username: string;
-  role: string;
+  roles: string[];
+  email: string;
 }
 
-export const UserCard = ({ username, role }: UserCardProps) => {
+export const UserCard = ({ username, roles, email }: UserCardProps) => {
+
+  const rolesText = roles.map((rol) => {
+    return <span key={rol}>{rol}</span>;
+  });
+
   return (
     <motion.div
       className="bg-gray-800 rounded-lg p-6 shadow-lg min-h-20 overflow-hidden"
@@ -24,7 +30,7 @@ export const UserCard = ({ username, role }: UserCardProps) => {
           <Avatar key={username} username={username} />
           <div>
             <h2 className="text-white font-semibold text-lg">{username}</h2>
-            <p className="text-gray-400">{role}</p>
+            <p className="text-gray-400">{email}</p>
           </div>
         </motion.div>
         <motion.button
@@ -43,8 +49,7 @@ export const UserCard = ({ username, role }: UserCardProps) => {
         transition={{ delay: 0.6, duration: 0.5 }}
       >
         <p className="text-gray-300">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-          tincidunt arcu vel arcu fermentum, eget accumsan tincidunt.
+          {rolesText}
         </p>
       </motion.div>
     </motion.div>

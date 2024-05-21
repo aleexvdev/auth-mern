@@ -19,10 +19,14 @@ const initialState: AuthState = {
   user: null,
   error: null,
   isLoading: false,
-  success: false
+  success: false,
 };
 
-export const signIn = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignInFormData, { rejectValue: any }>("auth/sign-in", async (data, thunkAPI) => {
+export const signIn = createAsyncThunk<
+  { message: string; detail: { user: UserType; token: string } },
+  SignInFormData,
+  { rejectValue: any }
+>("auth/sign-in", async (data, thunkAPI) => {
   try {
     const response = await AuthAPI.signInAuth(data);
     if (response.data.status === false) {
@@ -34,7 +38,11 @@ export const signIn = createAsyncThunk<{ message: string; detail: { user: UserTy
   }
 });
 
-export const signUp = createAsyncThunk<{ message: string; detail: { user: UserType; token: string } }, SignUpFormData, { rejectValue: string }>("auth/sign-up", async (data, thunkAPI) => {
+export const signUp = createAsyncThunk<
+  { message: string; detail: { user: UserType; token: string } },
+  SignUpFormData,
+  { rejectValue: string }
+>("auth/sign-up", async (data, thunkAPI) => {
   try {
     const response = await AuthAPI.signUpAuth(data);
     return response.data;
@@ -42,7 +50,6 @@ export const signUp = createAsyncThunk<{ message: string; detail: { user: UserTy
     return thunkAPI.rejectWithValue("Authentication Error");
   }
 });
-
 
 export const authSlice = createSlice({
   name: "auth",
@@ -55,7 +62,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.success = false;
-      sessionStorage.removeItem('token');
+      localStorage.removeItem("token");
     },
     resetState: (state) => {
       state.isAuthenticated = false;
@@ -64,7 +71,7 @@ export const authSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       state.success = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -75,7 +82,13 @@ export const authSlice = createSlice({
       })
       .addCase(
         signIn.fulfilled,
-        (state, action: PayloadAction<{ message: string; detail: { user: UserType; token: string } }>) => {
+        (
+          state,
+          action: PayloadAction<{
+            message: string;
+            detail: { user: UserType; token: string };
+          }>
+        ) => {
           const { detail } = action.payload;
           state.isAuthenticated = true;
           state.success = true;
@@ -83,17 +96,23 @@ export const authSlice = createSlice({
           state.token = detail.token;
           state.user = detail.user;
           state.error = null;
-          sessionStorage.setItem('token', detail.token);
+          localStorage.setItem("token", detail.token);
         }
       )
-      .addCase(signIn.rejected, (state, action: PayloadAction<{ message: string; detail: { error: string } }>) => {
-        state.isLoading = false;
-        state.success = false;
-        state.isAuthenticated = false;
-        state.token = null;
-        state.user = null;
-        state.error = action.payload.detail.error || null;
-      })
+      .addCase(
+        signIn.rejected,
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: { error: string } }>
+        ) => {
+          state.isLoading = false;
+          state.success = false;
+          state.isAuthenticated = false;
+          state.token = null;
+          state.user = null;
+          state.error = action.payload.detail.error || null;
+        }
+      )
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -101,14 +120,20 @@ export const authSlice = createSlice({
       })
       .addCase(
         signUp.fulfilled,
-        (state, action: PayloadAction<{ message: string; detail: { user: UserType; token: string } }>) => {
+        (
+          state,
+          action: PayloadAction<{
+            message: string;
+            detail: { user: UserType; token: string };
+          }>
+        ) => {
           const { detail } = action.payload;
           state.isLoading = false;
           state.isAuthenticated = true;
           state.success = true;
           state.token = detail.token;
           state.user = detail.user;
-          sessionStorage.setItem('token', detail.token);
+          localStorage.setItem("token", detail.token);
         }
       )
       .addCase(signUp.rejected, (state, action) => {
@@ -116,8 +141,8 @@ export const authSlice = createSlice({
         state.success = false;
         state.isAuthenticated = false;
         state.error = action.payload || "Unknown Error";
-      })
-  }
+      });
+  },
 });
 
 export const { logout, resetState } = authSlice.actions;

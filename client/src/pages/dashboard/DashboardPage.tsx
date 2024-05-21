@@ -1,7 +1,27 @@
 import { motion } from "framer-motion";
 import { UserCard } from "../../components/User/UserCard";
+import { useSelector } from "react-redux";
+import { selectAuth } from "../../features/auth/authSlice";
+import { useEffect, useState } from "react";
+
+const INITIAL_USER: {
+  username: string;
+  email: string;
+  roles: string[];
+} = {
+  username: "",
+  email: "",
+  roles: []
+}
 
 export const DashboardPage = () => {
+
+  const { user } = useSelector(selectAuth);
+  const [userState, setUserState] = useState(INITIAL_USER);
+
+  useEffect(() => {
+    user && setUserState({ username: user.username, email: user.email, roles: user.roles });
+  }, [user]);
 
   return (
     <motion.section
@@ -29,8 +49,9 @@ export const DashboardPage = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           <UserCard
-            username="John Doe"
-            role="Administrator"
+            username={userState.username}
+            roles={userState.roles}
+            email={userState.email}
           />
         </motion.div>
       </article>

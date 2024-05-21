@@ -7,3 +7,10 @@ export interface UserType {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface UserState {
+  users: UserType[] | null;
+  isLoading: boolean;
+  error: any | null;
+  success: boolean;
+}
