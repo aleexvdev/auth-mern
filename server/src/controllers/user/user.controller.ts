@@ -34,6 +34,23 @@ export class UserController {
     }
   }
 
+  getUserByToken = async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
+
+    try {
+      const token = req.query.token as string;
+      const user = await this.userService.getUserByToken(token);
+      if (!user) errorResponse(res, 404, 'User not found', 'User not found');
+      successResponse(res, 'User retrieved successfully', user);
+    } catch (error: any) {
+      errorResponse(res, 500, 'Failed to fetch user', error.message);
+    }
+  }
+
   createUser = async (req: Request, res: Response): Promise<void>  => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

@@ -70,3 +70,11 @@ export const validateDeleteUser = [
     .notEmpty()
     .withMessage('ID User is required')
 ];
+
+export const validateUserByToken = [
+  query('token')
+    .exists()
+    .withMessage('Token is required')
+    .notEmpty()
+    .withMessage('Token is required')
+]

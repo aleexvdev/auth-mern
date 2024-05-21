@@ -1,6 +1,9 @@
+import { verify } from "jsonwebtoken";
 import { IUser, User } from "../models/user.model";
 import { hashPassword } from "../utils";
 import { RoleService } from "./role.service";
+import config from "../config/config";
+import { JwtPayload } from "../types/auth";
 
 export class UserService {
 
@@ -12,6 +15,15 @@ export class UserService {
 
   getUserById = async (userId: string): Promise<IUser | null> => {
     return await User.findById(userId);
+  }
+
+  getUserByToken = async (tokenUser: string): Promise<IUser | null> => {
+    const decodedToken = verify(tokenUser, config.jwtSecret) as JwtPayload;
+    if (!decodedToken) throw new Error("Error decoding token");
+    const userId = decodedToken.userId as string;
+    const foundUser = await User.findById(userId);
+    if (!foundUser) throw new Error("User not found");
+    return foundUser;
   }
 
   createUser = async (userData: IUser): Promise<IUser> => {
