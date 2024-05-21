@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Avatar } from "./Avatar";
+import { RoleAPI } from "../../service/roleService/RoleAPI";
 
 interface UserCardProps {
   username: string;
@@ -10,7 +11,8 @@ interface UserCardProps {
 export const UserCard = ({ username, roles, email }: UserCardProps) => {
 
   const rolesText = roles.map((rol) => {
-    return <span key={rol}>{rol}</span>;
+    const roleName = RoleAPI.getRoleById(rol);
+    return <span key={rol} className="capitalize text-base font-medium">{roleName?.name}</span>;
   });
 
   return (
@@ -49,6 +51,7 @@ export const UserCard = ({ username, roles, email }: UserCardProps) => {
         transition={{ delay: 0.6, duration: 0.5 }}
       >
         <p className="text-gray-300">
+          <span className="font-semibold text-base mr-2">Your role is:</span>
           {rolesText}
         </p>
       </motion.div>

@@ -3,7 +3,6 @@ import { FaUsersCog } from "react-icons/fa";
 import { GoChevronDown } from "react-icons/go";
 import { IoIosLogOut } from "react-icons/io";
 import { RxDashboard } from "react-icons/rx";
-import { TbUserSquareRounded } from "react-icons/tb";
 import { Link, NavLink } from "react-router-dom";
 
 export const NavBarPrivate = () => {
@@ -42,16 +41,7 @@ export const NavBarPrivate = () => {
               </button>
               <button className="flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-1">
                 <NavLink
-                  to={"/users"}
-                  className="flex items-center gap-x-3"
-                >
-                  <TbUserSquareRounded className="w-6 h-6 text-white" />
-                  <span className="text-base text-white">User</span>
-                </NavLink>
-              </button>
-              <button className="flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-1">
-                <NavLink
-                  to={"/users"}
+                  to={"users"}
                   className="flex items-center gap-x-3"
                 >
                   <FaUsersCog className="w-6 h-6 text-white" />

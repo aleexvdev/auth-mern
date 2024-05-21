@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import AuthRouters from './routes/auth.routes'
 import UserRouters from './routes/user.routes'
+import RoleRouters from './routes/role.routes'
 import { createRoles } from './libs/initialSetup';
 import expressListEndpoints  from "express-list-endpoints";
 
@@ -39,6 +40,7 @@ app.get('/api/v1/routes', (_req, res) => {
 
 app.use('/api/v1/auth', AuthRouters);
 app.use('/api/v1/users', UserRouters);
+app.use('/api/v1/roles', RoleRouters);
 
 // Conexión a la base de datos
 connectDB();

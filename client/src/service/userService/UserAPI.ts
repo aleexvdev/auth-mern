@@ -10,5 +10,6 @@ export const UserAPI = {
       const errorAxios = error as AxiosError;
       return errorAxios;
     }
-  }
+  },
+  
 }
