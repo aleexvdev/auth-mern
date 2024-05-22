@@ -45,7 +45,7 @@ export const SignInPage = () => {
 
   return (
     <motion.section
-      className="w-full h-auto mx-auto max-w-4xl"
+      className="w-full h-auto mx-auto max-w-4xl px-4 md:px-2"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -64,7 +64,7 @@ export const SignInPage = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
           >
-            <h1 className="text-white font-bold text-4xl">
+            <h1 className="text-white font-bold text-3xl text-center md:text-4xl">
               Sign In to your account
             </h1>
           </motion.div>
@@ -123,7 +123,7 @@ export const SignInPage = () => {
                 >
                   <input
                     type="checkbox"
-                    className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
                     name="remember-me"
                     id="remember-me"
                   />
@@ -175,7 +175,7 @@ export const SignInPage = () => {
             </form>
           </motion.div>
           <motion.div
-            className="relative flex items-center w-[70%]"
+            className="relative flex items-center w-full md:w-[70%]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1, duration: 0.5 }}
