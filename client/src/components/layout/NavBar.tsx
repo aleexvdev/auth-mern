@@ -49,7 +49,7 @@ export const NavBar = () => {
         </picture>
       </Link>
       <nav className="hidden md:flex w-full items-center justify-end gap-4 sm:gap-6 lg:gap-10">
-        <div>
+        <div key={"Home"}>
           <NavLink
             to={"/"}
             className={({ isActive }) =>
@@ -63,7 +63,7 @@ export const NavBar = () => {
             </span>
           </NavLink>
         </div>
-        <div>
+        <div key={"SignIn"}>
           <NavLink
             to={"/sign-in"}
             className={({ isActive }) =>
@@ -77,7 +77,7 @@ export const NavBar = () => {
             </span>
           </NavLink>
         </div>
-        <div>
+        <div key={"SignUp"}>
           <NavLink
             to={"/sign-up"}
             className={({ isActive }) =>
@@ -103,7 +103,7 @@ export const NavBar = () => {
         animate={isOpen ? "visible" : "hidden"}
         variants={menuVariants}
       >
-        <div className="overflow-hidden py-5">
+        <div key={"Home"} className="overflow-hidden py-5">
           <NavLink
             to={"/"}
             className={({ isActive }) =>
@@ -118,7 +118,7 @@ export const NavBar = () => {
             </span>
           </NavLink>
         </div>
-        <div className="overflow-hidden py-5">
+        <div key={"SignIn"} className="overflow-hidden py-5">
           <NavLink
             to={"/sign-in"}
             className={({ isActive }) =>
@@ -133,7 +133,7 @@ export const NavBar = () => {
             </span>
           </NavLink>
         </div>
-        <div className="overflow-hidden py-5">
+        <div key={"SignUp"} className="overflow-hidden py-5">
           <NavLink
             to={"/sign-up"}
             className={({ isActive }) =>

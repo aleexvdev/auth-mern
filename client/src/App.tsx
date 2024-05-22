@@ -57,28 +57,32 @@ export const App = () => {
             className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-5 overflow-hidden"
           >
             <CardHome
+              key={"GiPadlock"}
               Icon={GiPadlock}
               className="text-white w-10 h-10"
               title="Implemented Strong Security Measures"
-              variants={itemVariants}
+              data-slot="security"
             />
             <CardHome
+              key={"SiAuthelia"}
               Icon={SiAuthelia}
               className="text-white w-10 h-10"
               title="Forgot Password, SSO, & MFA Included"
-              variants={itemVariants}
+              data-slot="auth"
             />
             <CardHome
+              key={"HiAdjustmentsHorizontal"}
               Icon={HiAdjustmentsHorizontal}
               className="text-white w-10 h-10"
               title="Customizable e-mail templates, cookies, & others."
-              variants={itemVariants}
+              data-slot="customization"
             />
             <CardHome
+              key={"RxDashboard"}
               Icon={RxDashboard}
               className="text-white w-10 h-10"
               title="and more..."
-              variants={itemVariants}
+              data-slot="dashboard"
             />
           </motion.div>
         </motion.div>
