@@ -11,12 +11,14 @@ export const PublicLayout = () => {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.3 }}
-        className='relative w-screen h-screen min-h-screen'
+        className='relative w-full h-full min-h-screen flex flex-col'
       >
         <NavBar />
-        <Outlet />
-        <Footer />
+        <div className='flex-grow flex items-center justify-center w-full'>
+          <Outlet />
+        </div>
       </motion.main>
+      <Footer />
     </AnimatePresence>
   );
 }
