@@ -23,6 +23,7 @@ const itemVariants = {
 };
 
 export const App = () => {
+  console.log('Load APP')
   return (
     <section className="w-full h-full min-h-screen flex items-center justify-center px-4">
       <article className="w-full max-w-7xl mx-auto">
