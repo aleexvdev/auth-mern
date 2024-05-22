@@ -19,16 +19,16 @@ const routerConfig = [
       { index: true, element: <App /> },
       { path: 'sign-in', element: <SignInPage /> },
       { path: 'sign-up', element: <SignUpPage /> },
-      { path: '*', element: <Navigate to={"/"} /> }
+      { path: '*', element: <Navigate to="/" /> }
     ]
   },
   {
     path: '/dashboard',
     element: <ProtectedRoute><PrivateLayout /></ProtectedRoute>,
     children: [
-      { index: true, path: '/dashboard', element: <DashboardPage /> },
-      { path: '*', element: <Navigate to={"/dashboard"} /> },
-      { path: '/dashboard/users', element: <AllUsers /> }
+      { index: true, element: <DashboardPage /> },
+      { path: 'users', element: <AllUsers /> },
+      { path: '*', element: <Navigate to={"/dashboard"} /> }
     ]
   }
 ];
