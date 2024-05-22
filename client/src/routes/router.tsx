@@ -16,9 +16,9 @@ const routerConfig = [
     element: <PublicLayout />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, path: '/', element: <App /> },
-      { path: '/sign-in', element: <SignInPage /> },
-      { path: '/sign-up', element: <SignUpPage /> },
+      { index: true, element: <App /> },
+      { path: 'sign-in', element: <SignInPage /> },
+      { path: 'sign-up', element: <SignUpPage /> },
       { path: '*', element: <Navigate to={"/"} /> }
     ]
   },
