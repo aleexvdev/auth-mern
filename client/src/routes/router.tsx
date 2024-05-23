@@ -3,12 +3,12 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "../App";
 import { SignInPage } from "../pages/auth/SignInPage";
 import { SignUpPage } from "../pages/auth/SignUpPage";
-import { DashboardPage } from "../pages/dashboard/DashboardPage";
+// import { DashboardPage } from "../pages/dashboard/DashboardPage";
 import { ErrorPage } from "../pages/error/ErrorPage";
-import { ProtectedRoute } from "./ProtectedRoute";
+// import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicLayout } from "../layout/PublicLayout";
-import { PrivateLayout } from "../layout/PrivateLayout";
-import { AllUsers } from "../pages/dashboard/AllUsers";
+// import { PrivateLayout } from "../layout/PrivateLayout";
+// import { AllUsers } from "../pages/dashboard/AllUsers";
 
 const routerConfig = [
   {
@@ -22,7 +22,7 @@ const routerConfig = [
       { path: '*', element: <Navigate to="/" /> }
     ]
   },
-  {
+  /* {
     path: '/dashboard',
     element: <ProtectedRoute><PrivateLayout /></ProtectedRoute>,
     children: [
@@ -30,7 +30,7 @@ const routerConfig = [
       { path: 'users', element: <AllUsers /> },
       { path: '*', element: <Navigate to={"/dashboard"} /> }
     ]
-  }
+  } */
 ];
 
 export const router = createBrowserRouter(routerConfig);
