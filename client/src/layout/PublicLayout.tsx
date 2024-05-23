@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { NavBar } from "../components/layout/NavBar";
 import { Outlet } from "react-router";
-// import { Footer } from "../components/layout/Footer";
+import { Footer } from "../components/layout/Footer";
 
 export const PublicLayout = () => {
   return (
@@ -17,6 +17,7 @@ export const PublicLayout = () => {
         <NavBar />
         <Outlet />
       </motion.main>
+      <Footer />
     </AnimatePresence>
   );
 };
