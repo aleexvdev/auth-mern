@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { NavBar } from "../components/layout/NavBar";
 import { Outlet } from "react-router";
-import { Footer } from "../components/layout/Footer";
+// import { Footer } from "../components/layout/Footer";
 
 export const PublicLayout = () => {
   return (
@@ -15,11 +15,8 @@ export const PublicLayout = () => {
         className="relative w-full h-full min-h-screen flex flex-col"
       >
         <NavBar />
-        <div className="flex-grow flex items-center justify-center w-full">
-          <Outlet />
-        </div>
+        <Outlet />
       </motion.main>
-      <Footer />
     </AnimatePresence>
   );
 };
