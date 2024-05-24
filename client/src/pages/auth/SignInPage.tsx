@@ -132,7 +132,7 @@ export const SignInPage = () => {
                   </span>
                 </label>
                 <button className="w-full flex items-center justify-end">
-                  <span className="font-semibold text-base text-white hover:text-gray-400">
+                  <span className="font-semibold text-base text-white hover:text-gray-400 text-right">
                     Forgot your password?
                   </span>
                 </button>
