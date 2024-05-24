@@ -176,13 +176,11 @@ export const SignUpPage = () => {
             transition={{ delay: 1, duration: 0.5 }}
           >
             <div className="w-20 flex-grow h-px bg-gray-400 dark:bg-gray-700"></div>
-            <span className="w-max flex-shrink px-4 text-white ">
-              Or Sign Up with
-            </span>
+            <span className="w-max flex-shrink px-4 text-white items-center">Or</span>
             <div className="w-20 flex-grow h-px bg-gray-400 dark:bg-gray-700"></div>
           </motion.div>
           <motion.div
-            className="w-full flex items-center justify-center gap-x-5 my-6"
+            className="w-full max-w-sm flex flex-col items-center justify-center gap-5 my-6"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.2, duration: 0.5 }}
@@ -190,20 +188,23 @@ export const SignUpPage = () => {
             <ButtonAuth
               key={"Apple"}
               icon={FaApple}
-              title={"SignIn with Apple"}
-              className="w-auto bg-white px-10 py-2 rounded-xl hover:bg-white/85"
+              title={"Apple"}
+              text="Sign In with Apple"
+              className="w-full bg-white px-10 py-2 rounded-xl hover:bg-white/85 flex items-center justify-center"
             />
             <ButtonAuth
               key={"Google"}
               icon={FcGoogle}
-              title={"Facebook"}
-              className="w-auto bg-white px-10 py-2 rounded-xl hover:bg-white/85"
+              title={"Google"}
+              text="Sign In with Google"
+              className="w-full bg-white px-10 py-2 rounded-xl hover:bg-white/85 flex items-center justify-center"
             />
             <ButtonAuth
               key={"Facebook"}
               icon={FaFacebook}
               title={"Facebook"}
-              className="w-auto bg-white px-10 py-2 rounded-xl text-blue-700 hover:bg-white/85"
+              text="Sign In with Facebook"
+              className="w-full bg-white px-10 py-2 rounded-xl text-blue-700 hover:bg-white/85 flex items-center justify-center"
             />
           </motion.div>
           <motion.div
