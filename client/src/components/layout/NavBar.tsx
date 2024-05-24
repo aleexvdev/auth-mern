@@ -98,7 +98,7 @@ export const NavBar = () => {
         </button>
       </div>
       <motion.nav
-        className="md:hidden absolute top-20 left-0 w-full bg-card-main flex flex-col items-center justify-center gap-4 overflow-hidden"
+        className="md:hidden absolute top-20 left-0 z-10 w-full bg-card-main flex flex-col items-center justify-center gap-4 overflow-hidden py-6"
         initial="hidden"
         animate={isOpen ? "visible" : "hidden"}
         variants={menuVariants}

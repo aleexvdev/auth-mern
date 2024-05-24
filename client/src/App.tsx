@@ -25,7 +25,7 @@ const itemVariants = {
 export const App = () => {
   return (
     <section className="w-full h-full min-h-screen flex items-center justify-center px-4">
-      <article className="w-full max-w-7xl mx-auto">
+      <article className="w-full max-w-7xl mx-auto pb-10">
         <motion.div
           className="flex flex-col items-center justify-center"
           initial="hidden"
