@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { HiMenu, HiX } from "react-icons/hi";
 import { useState } from "react";
@@ -39,7 +39,7 @@ export const NavBar = () => {
       animate="visible"
       variants={navVariants}
     >
-      <Link to={"/"} className="w-max">
+      <NavLink to={"/"} className="w-max">
         <picture>
           <img
             src="/assets/img/logo.png"
@@ -47,7 +47,7 @@ export const NavBar = () => {
             className="w-10 h-auto"
           />
         </picture>
-      </Link>
+      </NavLink>
       <nav className="hidden md:flex w-full items-center justify-end gap-4 sm:gap-6 lg:gap-10">
         <div key={"Home"}>
           <NavLink
