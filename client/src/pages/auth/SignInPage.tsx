@@ -8,7 +8,7 @@ import { SlLock } from "react-icons/sl";
 import { SignInFormData } from "../../types/auth.type";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuth, signIn } from "../../features/auth/authSlice";
+import { resetState, selectAuth, signIn } from "../../features/auth/authSlice";
 import { AppDispatch } from "../../app/store";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,6 +24,7 @@ export const SignInPage = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm<SignInFormData>();
 
 
@@ -55,7 +56,12 @@ export const SignInPage = () => {
       }
       await dispatch(signIn(data));
     } catch (error) {
+      alert('Authentication Error');
       console.error("Authentication Error: ", error);
+      dispatch(resetState());
+      reset({
+        password: "",
+      });
     }
   };
 
@@ -301,7 +307,3 @@ export const SignInPage = () => {
     </motion.section>
   );
 };
-/* 
-
-
-*/
