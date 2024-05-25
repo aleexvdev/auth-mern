@@ -10,18 +10,29 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth, signIn } from "../../features/auth/authSlice";
 import { AppDispatch } from "../../app/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const SignInPage = () => {
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, success, error } = useSelector(selectAuth);
+  const { isAuthenticated, isLoading, success, error } =
+    useSelector(selectAuth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormData>();
+
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('username');
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, []);
 
   useEffect(() => {
     let redirectTimer: NodeJS.Timeout;
@@ -37,9 +48,14 @@ export const SignInPage = () => {
 
   const onSubmit = async (data: SignInFormData) => {
     try {
+      if (rememberMe) {
+        localStorage.setItem("username", data.email);
+      } else {
+        localStorage.removeItem("username");
+      }
       await dispatch(signIn(data));
     } catch (error) {
-      console.error('Authentication Error: ', error);
+      console.error("Authentication Error: ", error);
     }
   };
 
@@ -96,6 +112,8 @@ export const SignInPage = () => {
                   register={register}
                   errors={errors}
                   instructions={false}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <InputComponent
                   key={"PasswordComponent"}
@@ -126,6 +144,8 @@ export const SignInPage = () => {
                     className="w-4 h-4 bg-gray-100 border-gray-300 rounded"
                     name="remember-me"
                     id="remember-me"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
                   />
                   <span className="font-medium ml-2 text-base text-white">
                     Remember me
@@ -181,7 +201,9 @@ export const SignInPage = () => {
             transition={{ delay: 1, duration: 0.5 }}
           >
             <div className="w-20 flex-grow h-px bg-gray-400 dark:bg-gray-700"></div>
-            <span className="w-max flex-shrink px-4 text-white items-center">Or</span>
+            <span className="w-max flex-shrink px-4 text-white items-center">
+              Or
+            </span>
             <div className="w-20 flex-grow h-px bg-gray-400 dark:bg-gray-700"></div>
           </motion.div>
           <motion.div

@@ -17,6 +17,7 @@ interface InputComponentProps {
   register: UseFormRegister<any>;
   errors: FieldErrors<any>;
   instructions: boolean;
+  value?: string;
 }
 
 export const InputComponent = ({
@@ -28,7 +29,9 @@ export const InputComponent = ({
   rules,
   register,
   errors,
-  instructions
+  instructions,
+  value,
+  onChange
 }: InputComponentProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,8 +54,10 @@ export const InputComponent = ({
               type === "password" ? (showPassword ? "text" : "password") : type
             }
             placeholder={placeholder}
+            value={value}
             className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
             {...register(name,  rules)}
+            onChange={onChange}
           />
           {type === "password" && (
             <button
