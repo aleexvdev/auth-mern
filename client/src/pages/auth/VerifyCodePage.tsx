@@ -1,38 +1,6 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { CiUser } from "react-icons/ci";
-import { GoAlert } from "react-icons/go";
-import { Link } from "react-router-dom";
-import { Alert } from "../../components/common/Alert/Alert";
 
-export const RecoverPasswordPage = () => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertType, setAlertType] = useState<string>("success");
-  const [alertMessage, setAlertMessage] = useState<string>("");
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<{ email: string }>();
-
-  const onSubmit = (data: { email: string }) => {
-    console.log(data);
-    setShowAlert(true);
-    setAlertType("info");
-    setAlertMessage("Procesando información...");
-
-    try {
-      // Lógica para enviar el correo electrónico
-      setAlertType("success");
-      setAlertMessage("Verification Code sent to email");
-      // Redirigir a otra vista para ingresar el código
-    } catch (error) {
-      setAlertType("error");
-      setAlertMessage("Failed to send email. Verify that your email is registered.");
-    }
-  };
-
+export const VerifyCodePage = () => {
   return (
     <motion.section
       className="w-full h-auto mx-auto max-w-4xl px-4 md:px-2 pb-10"
@@ -138,5 +106,5 @@ export const RecoverPasswordPage = () => {
         <Alert type={alertType} message={alertMessage} />
       )}
     </motion.section>
-  );
-};
+  )
+}
