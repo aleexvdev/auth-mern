@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import { SignInFormData, SignUpFormData } from "../../types/auth.type"
+import { SignInFormData, SignUpFormData, VerifyToken } from "../../types/auth.type"
 import { apiBaseUrl } from "../config/axiosConfig";
 
 export const AuthAPI = {
@@ -15,6 +15,15 @@ export const AuthAPI = {
   signUpAuth: async (body: SignUpFormData) => {
     try {
       const response = await apiBaseUrl.post("/auth/sign-up", body);
+      return response.data;
+    } catch (error) {
+      const errorAxios = error as AxiosError;
+      return errorAxios;
+    }
+  },
+  verifyToken: async (body: VerifyToken) => {
+    try {
+      const response = await apiBaseUrl.post("/auth/verify-token", body);
       return response.data;
     } catch (error) {
       const errorAxios = error as AxiosError;

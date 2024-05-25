@@ -51,6 +51,19 @@ export const signUp = createAsyncThunk<
   }
 });
 
+export const verifyToken = createAsyncThunk<
+  { message: string; detail: { user: UserType } },
+  { token: string },
+  { rejectValue: string }
+>("auth/verify-token", async (data, thunkAPI) => {
+  try {
+    const response = await AuthAPI.verifyToken(data);
+    return response.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue("Token verification error");
+  }
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -140,6 +153,26 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.success = false;
         state.isAuthenticated = false;
+        state.error = action.payload || "Unknown Error";
+      })
+      .addCase(verifyToken.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        verifyToken.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: { user: UserType } }>
+        ) => {
+          const { detail } = action.payload;
+          state.isLoading = false;
+          state.user = detail.user;
+          state.isAuthenticated = true;
+        }
+      )
+      .addCase(verifyToken.rejected, (state, action) => {
+        state.isLoading = false;
         state.error = action.payload || "Unknown Error";
       });
   },

@@ -20,3 +20,7 @@ export interface JwtPayload {
 export interface tokenData {
   refreshToken: string;
 }
+
+export interface tokenDataVerify {
+  token: string;
+}

@@ -48,7 +48,7 @@ export const AllUsers = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto h-full min-h-screen py-8">
+    <div className="max-w-7xl mx-auto h-full min-h-screen py-8 px-4 sm:px-6 lg:px-8">
       <div className="w-full flex items-center justify-between mb-4">
         <div className="w-1/2 flex items-center justify-between bg-white rounded-lg h-12">
           <input
@@ -143,7 +143,7 @@ export const AllUsers = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {user.createdAt}
                 </td>
-                <td className="py-4 whitespace-nowrap text-sm text-gray-500 w-full flex items-center justify-center gap-2">
+                <td className="py-4 whitespace-nowrap text-sm text-gray-500 w-full flex items-center justify-start gap-2">
                   <button
                     onClick={() => handleEdit(user)}
                     className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md flex items-center justify-center gap-x-2"

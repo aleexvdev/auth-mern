@@ -2,25 +2,26 @@ import { motion } from "framer-motion";
 import { UserCard } from "../../components/User/UserCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getUserbytoken, selectUser } from "../../features/user/userSlice";
+import { getUserbytoken } from "../../features/user/userSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
+import { selectAuth } from "../../features/auth/authSlice";
 
 export const DashboardPage = () => {
 
   const dispatch = useDispatch();
-  const { users } = useSelector(selectUser);
+  const { user } = useSelector(selectAuth);
 
   useEffect(() => {
     dispatch(getUserbytoken() as unknown as UnknownAction);
   }, [dispatch]);
-  
-  if (!users) {
+
+  if (!user) {
     return <h1>Loading...</h1>;
   }
 
   return (
     <motion.section
-      className="w-full h-full mx-auto max-w-4xl"
+      className="w-full h-full mx-auto max-w-5xl"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
@@ -44,9 +45,9 @@ export const DashboardPage = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
         >
           <UserCard
-            username={users[0].username}
-            roles={users[0].roles}
-            email={users[0].email}
+            username={user.username}
+            roles={user.roles}
+            email={user.email}
           />
         </motion.div>
       </article>

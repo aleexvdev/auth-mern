@@ -33,3 +33,7 @@ export interface MappedResponse {
   };
   token: string;
 }
+
+export interface VerifyToken {
+  token: string;
+}

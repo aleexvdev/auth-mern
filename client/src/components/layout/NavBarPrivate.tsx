@@ -37,10 +37,10 @@ export const NavBarPrivate = () => {
       setShowPopup(false);
       navigate("/");
     }, 3000);
-  }
+  };
 
   return (
-    <header className="max-w-5xl mx-auto w-full flex items-center justify-between h-20">
+    <header className="max-w-7xl mx-auto w-full flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
       <Link to={"/dashboard"} className="w-max">
         <picture>
           <img
@@ -59,27 +59,33 @@ export const NavBarPrivate = () => {
           <GoChevronDown className="w-6 h-6 text-white" />
         </button>
         {activeOptions && (
-          <div ref={optionsRef} className="absolute top-16 bg-card-main rounded-lg shadow-lg w-52 h-auto mt-2 border px-2 py-3">
+          <div
+            ref={optionsRef}
+            className="absolute top-16 z-10 bg-card-main rounded-lg shadow-lg w-52 h-auto mt-2 border px-2 py-3"
+          >
             <ul className="flex flex-col gap-y-3">
-              <button className="flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-1" onClick={() => setActiveOptions(false)}>
-                <NavLink
-                  to={"/dashboard"}
-                  className="flex items-center gap-x-3"
+              <NavLink to={"/dashboard"} className="flex items-center gap-x-3">
+                <button
+                  className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
+                  onClick={() => setActiveOptions(false)}
                 >
                   <RxDashboard className="w-6 h-6 text-white" />
                   <span className="text-base text-white">Dashboard</span>
-                </NavLink>
-              </button>
-              <button className="flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-1" onClick={() => setActiveOptions(false)}>
-                <NavLink
-                  to={"users"}
-                  className="flex items-center gap-x-3"
+                </button>
+              </NavLink>
+              <NavLink to={"/users"} className="flex items-center gap-x-3">
+                <button
+                  className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
+                  onClick={() => setActiveOptions(false)}
                 >
                   <FaUsersCog className="w-6 h-6 text-white" />
                   <span className="text-base text-white">Users</span>
-                </NavLink>
-              </button>
-              <button className="flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-1" onClick={logoutSession}>
+                </button>
+              </NavLink>
+              <button
+                className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
+                onClick={logoutSession}
+              >
                 <IoIosLogOut className="w-6 h-6 text-white" />
                 <span className="text-base text-white">Logout</span>
               </button>

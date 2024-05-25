@@ -39,3 +39,9 @@ export const validateRefreshToken = [
     .notEmpty()
     .withMessage('Refresh token is required')
 ];
+
+export const validateVerifyToken = [
+  body('token')
+    .notEmpty()
+    .withMessage('Refresh token is required')
+];

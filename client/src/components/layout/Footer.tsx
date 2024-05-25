@@ -4,7 +4,7 @@ import { RiFacebookFill } from "react-icons/ri"
 
 export const Footer = () => {
   return (
-    <footer className="w-full bg-gray-second py-6 pt-10">
+    <footer className="w-full bg-gray-second py-6 pt-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-white">Developed by: Alexander Valverde</div>
         <div className="flex items-center justify-end gap-5">

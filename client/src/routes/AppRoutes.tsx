@@ -5,23 +5,56 @@ import { PublicLayout } from "../layout/public/PublicLayout";
 import { App } from "../App";
 import { DashboardPage } from "../pages/dashboard/DashboardPage";
 import { AllUsers } from "../pages/dashboard/AllUsers";
-import PrivateRoutes from "./PrivateRoutes";
+import { PrivateLayout } from "../layout/private/PrivateLayout";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { selectAuth, verifyToken } from "../features/auth/authSlice";
+import { UnknownAction } from "@reduxjs/toolkit";
 
 const AppRoutes = () => {
+
+  const { isAuthenticated } = useSelector(selectAuth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(verifyToken({ token }) as unknown as UnknownAction);
+    }
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
         <Route path="/" index element={<PublicLayout><App /></PublicLayout>} />
-        <Route path="sign-in" element={<PublicLayout><SignInPage /></PublicLayout>} />
-        <Route path="sign-up" element={<PublicLayout><SignUpPage /></PublicLayout>} />
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/sign-in" element={<PublicLayout><SignInPage /></PublicLayout>} />
+        <Route path="/sign-up" element={<PublicLayout><SignUpPage /></PublicLayout>} />
         {/* Private Routes */}
-        <Route element={<PrivateRoutes />}>
-          <Route path="dashboard" index element={<DashboardPage />} />
-          <Route path="users" element={<AllUsers />} />
-          <Route path="*" element={<Navigate to="dashboard" />} />
-        </Route>
+        <Route
+          path="/dashboard"
+          element={
+            isAuthenticated ? (
+              <PrivateLayout>
+                <DashboardPage />
+              </PrivateLayout>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            isAuthenticated ? (
+              <PrivateLayout>
+                <AllUsers />
+              </PrivateLayout>
+            ) : (
+              <Navigate to="/sign-in" />
+            )
+          }
+        />
+        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>
   );

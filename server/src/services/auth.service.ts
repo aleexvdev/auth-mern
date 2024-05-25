@@ -1,6 +1,6 @@
 import config from "../config/config";
 import { User } from "../models/user.model";
-import { SignInData, SignUpData, tokenData } from "../types/auth";
+import { SignInData, SignUpData, tokenData, tokenDataVerify } from "../types/auth";
 import { comparePassword, generateToken, hashPassword, verifyToken } from "../utils";
 import { RoleService } from "./role.service";
 
@@ -48,6 +48,15 @@ export class AuthService {
 
     const accessToken = await generateToken(user._id.toString(), user.email, user.roles);
     return { user: user, token: accessToken };
+  }
+
+  verifyTokenAndGetUser = async (tokenData: tokenDataVerify) => {
+    const { token } = tokenData;
+    const decodedToken = verifyToken(token, config.jwtSecret);
+    if (!decodedToken) throw new Error("Invalid refresh token");
+    const user = await User.findById(decodedToken.userId);
+    if (!user) throw new Error("User not found");
+    return { user: user };
   }
 
 }

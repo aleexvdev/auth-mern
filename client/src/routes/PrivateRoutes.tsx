@@ -5,7 +5,10 @@ const PrivateRoutes = () => {
 
   const { isAuthenticated } = useAppSelector((state) => state.auth);
   const location = useLocation();
-  return !isAuthenticated && !localStorage.getItem('token') ? <Outlet /> : <Navigate to={"/sign-in"} state={{ from: location }} replace />;
+  if (!isAuthenticated) {
+      return <Navigate to={"/sign-in"} state={{ from: location }} replace />
+  }
+  return <Outlet />;
 };
 
 export default PrivateRoutes;

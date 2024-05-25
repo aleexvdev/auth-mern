@@ -45,7 +45,7 @@ export const SignInPage = () => {
 
   return (
     <motion.section
-      className="w-full h-auto mx-auto max-w-4xl px-4 md:px-2"
+      className="w-full h-auto mx-auto max-w-4xl px-4 md:px-2 pb-10"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
