@@ -15,7 +15,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const SignInPage = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, success, error } =
@@ -24,12 +24,11 @@ export const SignInPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<SignInFormData>();
 
-
   useEffect(() => {
-    const storedEmail = localStorage.getItem('username');
+    const storedEmail = localStorage.getItem("username");
     if (storedEmail) {
       setEmail(storedEmail);
     }
@@ -56,7 +55,7 @@ export const SignInPage = () => {
       }
       await dispatch(signIn(data));
     } catch (error) {
-      alert('Authentication Error');
+      alert("Authentication Error");
       console.error("Authentication Error: ", error);
       dispatch(resetState());
       reset({
@@ -157,11 +156,11 @@ export const SignInPage = () => {
                     Remember me
                   </span>
                 </label>
-                <button className="w-full flex items-center justify-end">
+                <Link to={"/recover-password"} className="w-full flex items-center justify-end">
                   <span className="font-semibold text-base text-white hover:text-gray-400 text-right">
                     Forgot your password?
                   </span>
-                </button>
+                </Link>
               </motion.div>
               {error && (
                 <div

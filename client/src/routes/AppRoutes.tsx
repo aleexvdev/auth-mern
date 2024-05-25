@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { selectAuth, verifyToken } from "../features/auth/authSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
+import { RecoverPasswordPage } from "../pages/auth/RecoverPasswordPage";
 
 const AppRoutes = () => {
 
@@ -29,6 +30,7 @@ const AppRoutes = () => {
         <Route path="/" index element={<PublicLayout><App /></PublicLayout>} />
         <Route path="/sign-in" element={<PublicLayout><SignInPage /></PublicLayout>} />
         <Route path="/sign-up" element={<PublicLayout><SignUpPage /></PublicLayout>} />
+        <Route path="/recover-password" element={<PublicLayout><RecoverPasswordPage /></PublicLayout>} />
         {/* Private Routes */}
         <Route
           path="/dashboard"

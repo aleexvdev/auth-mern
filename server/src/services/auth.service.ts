@@ -59,4 +59,11 @@ export class AuthService {
     return { user: user };
   }
 
+  recoverPassword = async (data: { email: string }) => {
+    const user = await User.findOne({ username: data.email });
+    if (!user) throw new Error("User with the provided email does not exist");
+    const link = "";
+    return link;
+  }
+
 }
