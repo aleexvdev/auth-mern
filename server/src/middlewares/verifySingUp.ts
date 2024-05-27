@@ -16,8 +16,9 @@ export const checkRolesExisted = async (req: Request, res: Response, next: NextF
 
 export const checkedDuplicateUsernameOrEmail = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const user = await User.findOne({ username: req.body.username });
-  if (user) return errorResponse(res, 409, `Username ${req.body.username} is already exists.`);
+  if (user) return errorResponse(res, 500, 'Bad Request', { "Username": `Username ${req.body.username} is already exists.` });
+  
   const email = await User.findOne({ email: req.body.email });
-  if (email) return errorResponse(res, 409, `Email ${req.body.email} is already exists.`);
+  if (email) return errorResponse(res, 500, 'Bad Request', { "Email": `Email ${req.body.email} is already exists.` });
   next();
 }

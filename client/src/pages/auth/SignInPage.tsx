@@ -46,6 +46,17 @@ export const SignInPage = () => {
     };
   }, [isAuthenticated, navigate]);
 
+  const getErrorMessage = (error: any) => {
+    if (typeof error === "string") {
+      return error;
+    } else if (typeof error === "object" && error !== null) {
+      // Extrae mensajes de error de las propiedades del objeto
+      return Object.values(error).join(", ");
+    } else {
+      return "An unknown error occurred.";
+    }
+  };
+
   const onSubmit = async (data: SignInFormData) => {
     try {
       if (rememberMe) {
@@ -168,7 +179,7 @@ export const SignInPage = () => {
                   role="alert"
                 >
                   <strong className="font-bold">Error:</strong>
-                  <span className="block sm:inline pl-2">{error}</span>
+                  <span className="block sm:inline pl-2">{getErrorMessage(error)}</span>
                 </div>
               )}
               <motion.div

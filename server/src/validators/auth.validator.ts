@@ -45,3 +45,9 @@ export const validateVerifyToken = [
     .notEmpty()
     .withMessage('Refresh token is required')
 ];
+
+export const validateRecoveryCode = [
+  body('email')
+    .isEmail()
+    .withMessage("Invalid email address")
+];

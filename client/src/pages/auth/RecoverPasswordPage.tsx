@@ -3,13 +3,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { GoAlert } from "react-icons/go";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "../../components/common/Alert/Alert";
 
 export const RecoverPasswordPage = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertType, setAlertType] = useState<string>("success");
   const [alertMessage, setAlertMessage] = useState<string>("");
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,6 +23,7 @@ export const RecoverPasswordPage = () => {
     setShowAlert(true);
     setAlertType("info");
     setAlertMessage("Procesando información...");
+    navigate("/verify-code");
 
     try {
       // Lógica para enviar el correo electrónico

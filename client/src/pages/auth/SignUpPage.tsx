@@ -9,19 +9,20 @@ import { SlLock } from "react-icons/sl";
 import { SignUpFormData } from "../../types/auth.type";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { selectAuth, signUp } from "../../features/auth/authSlice";
+import { resetState, selectAuth, signUp } from "../../features/auth/authSlice";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const SignUpPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, success } = useSelector(selectAuth);
+  const { isAuthenticated, isLoading, success, error } = useSelector(selectAuth);
   const {
     register,
     handleSubmit,
     formState: { errors },
     getValues,
+    reset
   } = useForm<SignUpFormData>();
 
   useEffect(() => {
@@ -36,11 +37,27 @@ export const SignUpPage = () => {
     };
   }, [isAuthenticated, navigate, dispatch]);
 
+  const getErrorMessage = (error: any) => {
+    if (typeof error === "string") {
+      return error;
+    } else if (typeof error === "object" && error !== null) {
+      // Extrae mensajes de error de las propiedades del objeto
+      return Object.values(error).join(", ");
+    } else {
+      return "An unknown error occurred.";
+    }
+  };
+
   const onSubmit = async (data: SignUpFormData) => {
     try {
       await dispatch(signUp(data));
     } catch (error) {
       console.error(`Register Error: `, error);
+      dispatch(resetState());
+      reset({
+        password: "",
+        confirmPassword: ""
+      });
     }
   };
 
@@ -141,6 +158,15 @@ export const SignUpPage = () => {
                   instructions={false}
                 />
               </div>
+              {error && (
+                <div
+                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3"
+                  role="alert"
+                >
+                  <strong className="font-bold">Error:</strong>
+                  <span className="block sm:inline pl-2">{getErrorMessage(error)}</span>
+                </div>
+              )}
               <motion.div
                 className="w-full my-8"
                 initial={{ opacity: 0, y: 20 }}

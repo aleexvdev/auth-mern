@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { selectAuth, verifyToken } from "../features/auth/authSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
 import { RecoverPasswordPage } from "../pages/auth/RecoverPasswordPage";
+import { VerifyCodePage } from "../pages/auth/VerifyCodePage";
+import { ResetPasswordPage } from "../pages/auth/ResetPasswordPage";
 
 const AppRoutes = () => {
 
@@ -31,6 +33,8 @@ const AppRoutes = () => {
         <Route path="/sign-in" element={<PublicLayout><SignInPage /></PublicLayout>} />
         <Route path="/sign-up" element={<PublicLayout><SignUpPage /></PublicLayout>} />
         <Route path="/recover-password" element={<PublicLayout><RecoverPasswordPage /></PublicLayout>} />
+        <Route path="/verify-code" element={<PublicLayout><VerifyCodePage /></PublicLayout>} />
+        <Route path="/reset-password" element={<PublicLayout><ResetPasswordPage /></PublicLayout>} />
         {/* Private Routes */}
         <Route
           path="/dashboard"

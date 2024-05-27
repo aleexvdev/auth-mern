@@ -76,3 +76,10 @@ export const isModeratorOrAdmin = async (req: Request, res: Response, next: Next
     errorResponse(res, 500, 'Internal Server Error', error);
   }
 }
+
+/* export const localVariables = async (req: Request, res: Response, next: NextFunction) => {
+  req.app.locals = {
+    OTP: null,
+    ressetSession
+  }
+} */

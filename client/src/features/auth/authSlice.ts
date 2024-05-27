@@ -41,13 +41,16 @@ export const signIn = createAsyncThunk<
 export const signUp = createAsyncThunk<
   { message: string; detail: { user: UserType; token: string } },
   SignUpFormData,
-  { rejectValue: string }
+  { rejectValue: any }
 >("auth/sign-up", async (data, thunkAPI) => {
   try {
     const response = await AuthAPI.signUpAuth(data);
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
     return response.data;
-  } catch (error) {
-    return thunkAPI.rejectWithValue("Authentication Error");
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
   }
 });
 
@@ -149,11 +152,17 @@ export const authSlice = createSlice({
           localStorage.setItem("token", detail.token);
         }
       )
-      .addCase(signUp.rejected, (state, action) => {
+      .addCase(signUp.rejected, 
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: { error: string } }>
+        ) => {
         state.isLoading = false;
         state.success = false;
         state.isAuthenticated = false;
-        state.error = action.payload || "Unknown Error";
+        state.token = null;
+        state.user = null;
+        state.error = action.payload.detail.error || "Error Sign Up";
       })
       .addCase(verifyToken.pending, (state) => {
         state.isLoading = true;

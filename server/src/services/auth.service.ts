@@ -6,7 +6,7 @@ import { RoleService } from "./role.service";
 
 export class AuthService {
 
-  constructor (private roleService: RoleService) { }
+  constructor(private roleService: RoleService) { }
 
   signUpHandler = async (userData: SignUpData) => {
     const { username, email, password, roles = [] } = userData;
@@ -58,12 +58,4 @@ export class AuthService {
     if (!user) throw new Error("User not found");
     return { user: user };
   }
-
-  recoverPassword = async (data: { email: string }) => {
-    const user = await User.findOne({ username: data.email });
-    if (!user) throw new Error("User with the provided email does not exist");
-    const link = "";
-    return link;
-  }
-
 }
