@@ -3,18 +3,30 @@ import { FaUsersCog } from "react-icons/fa";
 import { GoChevronDown } from "react-icons/go";
 import { IoIosLogOut } from "react-icons/io";
 import { RxDashboard } from "react-icons/rx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { logout, resetState } from "../../features/auth/authSlice";
+import { logout, resetState, selectAuth } from "../../features/auth/authSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import { resetUserState } from "../../features/user/userSlice";
+import { RoleAPI } from "../../service/roleService/RoleAPI";
 
 export const NavBarPrivate = () => {
   const [activeOptions, setActiveOptions] = useState<boolean>(false);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | undefined>(false);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const { user } = useSelector(selectAuth);
   const navigate = useNavigate();
   const optionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkAdmin = user?.roles.some((roleId: string) => {
+      const role = RoleAPI.getRoleById(roleId);
+      return role && role.name === 'admin';
+    });
+    
+    setIsAuthorized(checkAdmin);
+  }, [user]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -76,15 +88,17 @@ export const NavBarPrivate = () => {
                   <span className="text-base text-white">Dashboard</span>
                 </button>
               </NavLink>
-              <NavLink to={"/users"} className="flex items-center gap-x-3">
-                <button
-                  className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
-                  onClick={() => setActiveOptions(false)}
-                >
-                  <FaUsersCog className="w-6 h-6 text-white" />
-                  <span className="text-base text-white">Users</span>
-                </button>
-              </NavLink>
+              { isAuthorized && (
+                <NavLink to={"/users"} className="flex items-center gap-x-3">
+                  <button
+                    className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
+                    onClick={() => setActiveOptions(false)}
+                  >
+                    <FaUsersCog className="w-6 h-6 text-white" />
+                    <span className="text-base text-white">Users</span>
+                  </button>
+                </NavLink>
+              )}
               <button
                 className="w-full flex items-center gap-x-3 hover:bg-gray-primary rounded-lg py-2 px-3"
                 onClick={logoutSession}
