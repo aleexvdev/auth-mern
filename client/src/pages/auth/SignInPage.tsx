@@ -15,24 +15,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const SignInPage = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const [email, setEmail] = useState<string>(localStorage.getItem("username") ? localStorage.getItem("username") as string : "");
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, success, error } =
-    useSelector(selectAuth);
+  const { isAuthenticated, isLoading, success, error } = useSelector(selectAuth);
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<SignInFormData>();
-
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("username");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
 
   useEffect(() => {
     let redirectTimer: NodeJS.Timeout;

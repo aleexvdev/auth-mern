@@ -56,6 +56,6 @@ export class AuthService {
     if (!decodedToken) throw new Error("Invalid refresh token");
     const user = await User.findById(decodedToken.userId);
     if (!user) throw new Error("User not found");
-    return { user: user };
+    return { token: token, user: user };
   }
 }

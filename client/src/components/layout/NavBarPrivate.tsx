@@ -5,8 +5,9 @@ import { IoIosLogOut } from "react-icons/io";
 import { RxDashboard } from "react-icons/rx";
 import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { logout } from "../../features/auth/authSlice";
+import { logout, resetState } from "../../features/auth/authSlice";
 import { AnimatePresence, motion } from "framer-motion";
+import { resetUserState } from "../../features/user/userSlice";
 
 export const NavBarPrivate = () => {
   const [activeOptions, setActiveOptions] = useState<boolean>(false);
@@ -34,6 +35,8 @@ export const NavBarPrivate = () => {
     setShowPopup(true);
     setTimeout(() => {
       dispatch(logout());
+      dispatch(resetState());
+      dispatch(resetUserState());
       setShowPopup(false);
       navigate("/");
     }, 3000);
