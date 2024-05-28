@@ -76,4 +76,20 @@ export class AuthController {
     }
   }
 
+  sendCodeOTPMail = async (req: Request, res: Response): Promise<void> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
+
+    try {
+      const data = await this.authService.sendCodeOTPMail(req.body);
+      if (!data) return errorResponse(res, 500, 'Error sending code OTP', 'Failed to send code OTP');
+      return successResponse(res, 'Code OTP sent successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
+    }
+  }
+
 }

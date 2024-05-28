@@ -24,3 +24,7 @@ export interface tokenData {
 export interface tokenDataVerify {
   token: string;
 }
+
+export interface bodyMailOTP {
+  email: string;
+}

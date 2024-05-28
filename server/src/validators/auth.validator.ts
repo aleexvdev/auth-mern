@@ -51,3 +51,10 @@ export const validateRecoveryCode = [
     .isEmail()
     .withMessage("Invalid email address")
 ];
+
+export const validateSendCodeOTPMail = [
+  body('email')
+    .isEmail()
+    .withMessage("Invalid email address")
+    .notEmpty()
+];
