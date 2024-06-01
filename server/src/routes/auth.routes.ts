@@ -4,6 +4,7 @@ import { AuthService } from "../services/auth.service";
 import { validateRefreshToken, validateSendCodeOTPMail, validateSignIn, validateSignUp, validateVerifyToken } from "../validators/auth.validator";
 import { RoleService } from "../services/role.service";
 import { verifySingUp } from "../middlewares";
+import { refreshTokenMiddleware } from "../middlewares/oauth2Middleware";
 
 const router = Router();
 const roleService = new RoleService();
@@ -16,7 +17,7 @@ router.post('/sign-in', validateSignIn, authController.signInHandler);
 router.post('/refresh-token', validateRefreshToken, authController.refreshTokenHandler);
 router.post('/verify-token', validateVerifyToken, authController.verifyTokenAndGetUser);
 router.post('/sign-out', authController.signOutHandler);
-router.post('/send-code-otp-mail', validateSendCodeOTPMail, authController.sendCodeOTPMail);
+router.post('/send-code-otp-mail', refreshTokenMiddleware, validateSendCodeOTPMail, authController.sendCodeOTPMailOAuth);
 
 // router.post('/recover-password', authController.recoverPassword);
 // router.post('/sign-in-google', authController.signInGoogle);
