@@ -135,14 +135,14 @@ export class AuthService {
       subject: "Recovery Password - Code OTP",
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
-            <h1 style="color: #4C51BF; text-align: center;">Recuperación de Contraseña</h1>
-            <p style="font-size: 16px; color: #333;">¡Hola!</p>
-            <p style="font-size: 16px; color: #333;">Hemos recibido una solicitud para restablecer tu contraseña.</p>
-            <p style="font-size: 16px; color: #333;">Tu código OTP es:</p>
+            <h1 style="color: #4C51BF; text-align: center;">Recovery Password</h1>
+            <p style="font-size: 16px; color: #333;">Hello!</p>
+            <p style="font-size: 16px; color: #333;">We have received a request to reset your password.</p>
+            <p style="font-size: 16px; color: #333;">Your OTP code is:</p>
             <h2 style="color: #4C51BF; font-size: 32px; font-weight: bold; text-align: center;">${codeOTP}</h2>
-            <p style="font-size: 16px; color: #333;">Si no solicitaste este código, por favor ignora este correo.</p>
-            <p style="font-size: 16px; color: #333;">Gracias,</p>
-            <p style="font-size: 16px; color: #333;">El equipo de Soporte</p>
+            <p style="font-size: 16px; color: #333;">If you did not request this code, please ignore this email.</p>
+            <p style="font-size: 16px; color: #333;">Thank you,</p>
+            <p style="font-size: 16px; color: #333;">The Support Team.</p>
         </div>
       `,
       text: codeOTP
