@@ -4,6 +4,8 @@ export interface UserType {
   email: string;
   password: string;
   roles: string[];
+  recoveryCode?: string | null;
+  recoveryCodeExpires?: string | null;
   createdAt: string;
   updatedAt: string;
 }

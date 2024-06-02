@@ -6,3 +6,14 @@ export const getRandomColor = () => {
   }
   return color;
 };
+
+export const getErrorMessage = (error: any) => {
+  if (typeof error === "string") {
+    return error;
+  } else if (typeof error === "object" && error !== null) {
+    // Extrae mensajes de error de las propiedades del objeto
+    return Object.values(error).join(", ");
+  } else {
+    return "An unknown error occurred.";
+  }
+};

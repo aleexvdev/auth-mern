@@ -1,5 +1,5 @@
 import { AxiosError } from "axios"
-import { SignInFormData, SignUpFormData, VerifyToken, sendCodeOTPMailProps, verifyCodeOTPMailProps } from "../../types/auth.type"
+import { SignInFormData, SignUpFormData, VerifyToken, resetPasswordProps, sendCodeOTPMailProps, verifyCodeOTPMailProps } from "../../types/auth.type"
 import { apiBaseUrl } from "../config/axiosConfig";
 
 export const AuthAPI = {
@@ -42,6 +42,15 @@ export const AuthAPI = {
   verifyCodeOTPMail: async (body: verifyCodeOTPMailProps) => {
     try {
       const response = await apiBaseUrl.post("/auth/verify-otp", body);
+      return response.data;
+    } catch (error) {
+      const errorAxios = error as AxiosError;
+      return errorAxios;
+    }
+  },
+  resetPassword: async (body: resetPasswordProps) => {
+    try {
+      const response = await apiBaseUrl.post("/auth/recover-password", body);
       return response.data;
     } catch (error) {
       const errorAxios = error as AxiosError;

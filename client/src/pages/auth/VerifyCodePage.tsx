@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GoAlert } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { resetState, selectAuth, verifyCodeOTPMail } from "../../features/auth/authSlice";
+import {
+  resetState,
+  selectAuth,
+  verifyCodeOTPMail,
+} from "../../features/auth/authSlice";
 import { AppDispatch } from "../../app/store";
 import { Alert } from "../../components/common/Alert/Alert";
 
@@ -14,21 +18,31 @@ export const VerifyCodePage = () => {
   const dispatch: AppDispatch = useDispatch();
   const { email, codeotp, isLoading, error } = useSelector(selectAuth);
 
-  if (!email) {
-    navigate('/recover-password');
-  }
+  useEffect(() => {
+    if (!email) {
+      navigate("/recover-password");
+    }
+  }, [email, navigate]);
+
+  const redirectToResetPassword = useCallback(() => {
+    if (codeotp) {
+      setTimeout(() => {
+        navigate("/reset-password");
+      }, 3000);
+    }
+  }, [codeotp, navigate]);
 
   useEffect(() => {
-    let redirectTimer: NodeJS.Timeout;
+    let redirectTimer: NodeJS.Timeout | null = null;
     if (codeotp) {
-      redirectTimer = setTimeout(() => {
-        navigate("/reset-password");
-      }, 6000);
+      redirectTimer = setTimeout(redirectToResetPassword, 3000);
     }
     return () => {
-      clearTimeout(redirectTimer);
+      if (redirectTimer) {
+        clearTimeout(redirectTimer);
+      }
     };
-  }, [codeotp, navigate]);
+  }, [codeotp, redirectToResetPassword]);
 
   const handleVerificationCodeChange = (index: number, value: string) => {
     const isNumberOrEmpty = /^[0-9]?$/.test(value);
@@ -37,7 +51,7 @@ export const VerifyCodePage = () => {
       newCode[index] = value;
       setVerificationCode(newCode.join(""));
 
-      if (value && index < 4) {
+      if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       } else if (!value && index > 0) {
         inputRefs.current[index - 1]?.focus();
@@ -53,13 +67,12 @@ export const VerifyCodePage = () => {
       if (verificationCode.length === 6 && email) {
         const data = {
           email: email,
-          otp: verificationCode.toString()
-        }
+          otp: verificationCode.toString(),
+        };
         await dispatch(verifyCodeOTPMail(data));
       }
     } catch (error: any) {
-      // dispatch(resetState());
-      console.log(error.message)
+      console.log(error.message);
     }
   };
 
@@ -112,7 +125,7 @@ export const VerifyCodePage = () => {
             A verification code has been sent to you. Enter the code below.
           </motion.p>
           <motion.div
-            className="w-full max-w-sm"
+            className="w-full max-w-lg"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
@@ -182,7 +195,7 @@ export const VerifyCodePage = () => {
                   >
                     <button
                       type="submit"
-                      className={`w-full bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-2 px-3 flex items-center justify-center ${
+                      className={`w-full bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-2 px-3 flex items-center justify-center overflow-hidden ${
                         verificationCode.length < 5
                           ? "opacity-50 cursor-not-allowed"
                           : ""
@@ -190,10 +203,33 @@ export const VerifyCodePage = () => {
                       disabled={verificationCode.length < 6}
                     >
                       <span className="text-center font-semibold">
-                        
-                      </span>
-                      <span className="text-center font-semibold">
-                        {isLoading ? "Loading..." : "Verify code"}
+                        {isLoading ? (
+                          <span className="flex items-center justify-center overflow-hidden">
+                            <svg
+                              className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
+                            </svg>
+                            Loading...
+                          </span>
+                        ) : (
+                          "Verify code"
+                        )}
                       </span>
                     </button>
                   </motion.div>
@@ -203,12 +239,7 @@ export const VerifyCodePage = () => {
           </motion.div>
         </motion.div>
       </article>
-      {codeotp && (
-        <Alert
-          type={"success"}
-          message={"Redirecting..."}
-        />
-      )}
+      {codeotp && !error && (<Alert type={"success"} message={"Redirecting..."} />)}
     </motion.section>
   );
 };

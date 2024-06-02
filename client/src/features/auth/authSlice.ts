@@ -106,6 +106,22 @@ export const verifyCodeOTPMail = createAsyncThunk<
   }
 });
 
+export const resetPassword = createAsyncThunk<
+  { message: string; detail: { user: UserType; token: string } },
+  { email: string; password: string; confirmPassword: string; },
+  { rejectValue: any }
+>("auth/recover-password", async (data, thunkAPI) => {
+  try {
+    const response = await AuthAPI.resetPassword(data);
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
@@ -202,7 +218,8 @@ export const authSlice = createSlice({
           state.token = null;
           state.user = null;
           state.error = action.payload.detail.error || "Error Sign Up";
-        })
+        }
+      )
       .addCase(verifyToken.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -268,7 +285,35 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.success = false;
         state.error = action.payload.detail.error || "Unknown Error";
-      });
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        resetPassword.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: { user: UserType; token: string } }>
+        ) => {
+          const { detail } = action.payload;
+          state.isLoading = false;
+          state.success = true;
+          state.error = null;
+          state.token = detail.token;
+          state.user = detail.user;
+          state.isAuthenticated = true;
+          localStorage.setItem("token", detail.token);
+        }
+      )
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.success = false;
+        state.isAuthenticated = false;
+        state.token = null;
+        state.user = null;
+        state.error = action.payload.detail.error || "Unknown Error";
+      })
   },
 });
 

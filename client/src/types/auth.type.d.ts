@@ -46,3 +46,9 @@ export interface verifyCodeOTPMailProps {
   email: string;
   otp: string;
 }
+
+export interface resetPasswordProps {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

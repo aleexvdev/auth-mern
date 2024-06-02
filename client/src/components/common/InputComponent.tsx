@@ -11,6 +11,7 @@ interface InputComponentProps {
   name: string;
   label: string;
   placeholder: string;
+  disabled?: boolean;
   id: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   rules: RegisterOptions;
@@ -31,7 +32,8 @@ export const InputComponent = ({
   errors,
   instructions,
   value,
-  onChange
+  onChange,
+  disabled
 }: InputComponentProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -54,6 +56,7 @@ export const InputComponent = ({
               type === "password" ? (showPassword ? "text" : "password") : type
             }
             placeholder={placeholder}
+            disabled={disabled}
             value={value}
             className="w-full flex-1 py-2 px-4 bg-transparent outline-none"
             {...register(name,  rules)}

@@ -12,6 +12,7 @@ import { AppDispatch } from "../../app/store";
 import { resetState, selectAuth, signUp } from "../../features/auth/authSlice";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getErrorMessage } from "../../utils/functions";
 
 export const SignUpPage = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -36,17 +37,6 @@ export const SignUpPage = () => {
       clearTimeout(redirectTimer);
     };
   }, [isAuthenticated, navigate, dispatch]);
-
-  const getErrorMessage = (error: any) => {
-    if (typeof error === "string") {
-      return error;
-    } else if (typeof error === "object" && error !== null) {
-      // Extrae mensajes de error de las propiedades del objeto
-      return Object.values(error).join(", ");
-    } else {
-      return "An unknown error occurred.";
-    }
-  };
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
@@ -112,6 +102,7 @@ export const SignUpPage = () => {
                   register={register}
                   errors={errors}
                   instructions={false}
+                  disabled={false}
                 />
                 <InputComponent
                   key={"Email"}
@@ -125,6 +116,7 @@ export const SignUpPage = () => {
                   register={register}
                   errors={errors}
                   instructions={false}
+                  disabled={false}
                 />
                 <InputComponent
                   key={"Password"}
@@ -138,6 +130,7 @@ export const SignUpPage = () => {
                   register={register}
                   errors={errors}
                   instructions={true}
+                  disabled={false}
                 />
                 <InputComponent
                   key={"PasswordConfirm"}
@@ -156,6 +149,7 @@ export const SignUpPage = () => {
                   register={register}
                   errors={errors}
                   instructions={false}
+                  disabled={false}
                 />
               </div>
               {error && (

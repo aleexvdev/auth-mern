@@ -12,6 +12,7 @@ import { resetState, selectAuth, signIn } from "../../features/auth/authSlice";
 import { AppDispatch } from "../../app/store";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { getErrorMessage } from "../../utils/functions";
 
 export const SignInPage = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
@@ -37,17 +38,6 @@ export const SignInPage = () => {
       clearTimeout(redirectTimer);
     };
   }, [isAuthenticated, navigate]);
-
-  const getErrorMessage = (error: any) => {
-    if (typeof error === "string") {
-      return error;
-    } else if (typeof error === "object" && error !== null) {
-      // Extrae mensajes de error de las propiedades del objeto
-      return Object.values(error).join(", ");
-    } else {
-      return "An unknown error occurred.";
-    }
-  };
 
   const onSubmit = async (data: SignInFormData) => {
     try {
@@ -121,6 +111,7 @@ export const SignInPage = () => {
                   errors={errors}
                   instructions={false}
                   value={email}
+                  disabled={false}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <InputComponent
@@ -131,9 +122,10 @@ export const SignInPage = () => {
                   icon={SlLock}
                   type="password"
                   placeholder="Password"
-                  rules={{ required: "La contraseña es requerida" }}
+                  rules={{ required: "Password is required" }}
                   register={register}
                   errors={errors}
+                  disabled={false}
                   instructions={true}
                 />
               </div>
