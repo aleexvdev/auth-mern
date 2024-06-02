@@ -11,6 +11,7 @@ interface AuthState {
   error: any | null;
   isLoading: boolean;
   success: boolean;
+  email: string | null;
 }
 
 const initialState: AuthState = {
@@ -20,6 +21,7 @@ const initialState: AuthState = {
   error: null,
   isLoading: false,
   success: false,
+  email: null,
 };
 
 export const signIn = createAsyncThunk<
@@ -69,6 +71,22 @@ export const verifyToken = createAsyncThunk<
     return thunkAPI.rejectWithValue("Token verification error");
   }
 });
+
+export const sendCodeOTPMail = createAsyncThunk<
+  { message: string; detail: any },
+  { email: string },
+  { rejectValue: any }
+>("auth/send-code-otp-mail", async (data, thunkAPI) => {
+  try {
+    const response = await AuthAPI.sendCodeOTPMail(data);
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+})
 
 export const authSlice = createSlice({
   name: "auth",
@@ -187,7 +205,28 @@ export const authSlice = createSlice({
       .addCase(verifyToken.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Unknown Error";
-      });
+      })
+      .addCase(sendCodeOTPMail.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        sendCodeOTPMail.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: any }>
+        ) => {
+          action.payload;
+          state.isLoading = false;
+          state.success = true;
+          state.error = null;
+        }
+      )
+      .addCase(sendCodeOTPMail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.success = false;
+        state.error = action.payload.detail.error || "Unknown Error";
+      })
   },
 });
 

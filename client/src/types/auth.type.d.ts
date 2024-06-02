@@ -37,3 +37,12 @@ export interface MappedResponse {
 export interface VerifyToken {
   token: string;
 }
+
+export interface sendCodeOTPMailProps {
+  email: string;
+}
+
+export interface verifyCodeOTPMailProps {
+  email: string;
+  otp: string;
+}

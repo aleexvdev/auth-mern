@@ -1,39 +1,64 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { CiUser } from "react-icons/ci";
 import { GoAlert } from "react-icons/go";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Alert } from "../../components/common/Alert/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../app/store";
+import {
+  resetState,
+  selectAuth,
+  sendCodeOTPMail,
+} from "../../features/auth/authSlice";
 
 export const RecoverPasswordPage = () => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertType, setAlertType] = useState<string>("success");
-  const [alertMessage, setAlertMessage] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+  const { success, isLoading, error } = useSelector(selectAuth);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<{ email: string }>();
 
-  const onSubmit = (data: { email: string }) => {
-    console.log(data);
-    setShowAlert(true);
-    setAlertType("info");
-    setAlertMessage("Procesando información...");
-    navigate("/verify-code");
-
-    try {
-      // Lógica para enviar el correo electrónico
-      setAlertType("success");
-      setAlertMessage("Verification Code sent to email");
-      // Redirigir a otra vista para ingresar el código
-    } catch (error) {
-      setAlertType("error");
-      setAlertMessage("Failed to send email. Verify that your email is registered.");
+  useEffect(() => {
+    let redirectTimer: NodeJS.Timeout;
+    if (success) {
+      redirectTimer = setTimeout(() => {
+        navigate("/verify-code");
+      }, 6000);
     }
+    return () => {
+      clearTimeout(redirectTimer);
+    };
+  }, [success, navigate]);
+
+  const getErrorMessage = (error: any) => {
+    if (typeof error === "string") {
+      return error;
+    } else if (typeof error === "object" && error !== null) {
+      return Object.values(error).join(", ");
+    } else {
+      return "An unknown error occurred.";
+    }
+  };
+
+  const onSubmit = async (data: { email: string }) => {
+    try {
+      await dispatch(sendCodeOTPMail(data));
+    } catch (error: any) {
+      dispatch(resetState());
+      reset();
+    }
+  };
+
+  const cancelAction = () => {
+    dispatch(resetState());
+    navigate("/sign-in");
   };
 
   return (
@@ -100,24 +125,32 @@ export const RecoverPasswordPage = () => {
                     </span>
                   </motion.div>
                 )}
-                <div className="overflow-hidden w-full flex items-center justify-center gap-4">
-                  <Link to={"/sign-in"} className="w-full overflow-hidden">
-                    <motion.div
-                      className="w-full"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8, duration: 0.5 }}
+                {error && (
+                    <div
+                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3"
+                      role="alert"
                     >
-                      <button
-                        type="button"
-                        className="w-full bg-gray-400 hover:bg-gray-300 text-black rounded-lg py-2 px-3 flex items-center justify-center"
-                      >
-                        <span className="text-center font-semibold">
-                          Cancel
-                        </span>
-                      </button>
-                    </motion.div>
-                  </Link>
+                      <strong className="font-bold">Error:</strong>
+                      <span className="block sm:inline pl-2">
+                        {getErrorMessage(error)}
+                      </span>
+                    </div>
+                  )}
+                <div className="overflow-hidden w-full flex items-center justify-center gap-4">
+                  <motion.div
+                    className="w-full overflow-hidden"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8, duration: 0.5 }}
+                  >
+                    <button
+                      type="button"
+                      onClick={cancelAction}
+                      className="w-full bg-gray-400 hover:bg-gray-300 text-black rounded-lg py-2 px-3 flex items-center justify-center"
+                    >
+                      <span className="text-center font-semibold">Cancel</span>
+                    </button>
+                  </motion.div>
                   <motion.div
                     className="w-full"
                     initial={{ opacity: 0, y: 20 }}
@@ -127,8 +160,11 @@ export const RecoverPasswordPage = () => {
                     <button
                       type="submit"
                       className="w-full bg-blue-700 hover:bg-blue-800 text-white rounded-lg py-2 px-3 flex items-center justify-center"
+                      disabled={isLoading}
                     >
-                      <span className="text-center font-semibold">Send</span>
+                      <span className="text-center font-semibold">
+                        {isLoading ? "Loading..." : "Send"}
+                      </span>
                     </button>
                   </motion.div>
                 </div>
@@ -137,9 +173,7 @@ export const RecoverPasswordPage = () => {
           </motion.div>
         </motion.div>
       </article>
-      {showAlert && (
-        <Alert type={alertType} message={alertMessage} />
-      )}
+      {success && <Alert type={"success"} message={"The OTP code was sent to your email."} />}
     </motion.section>
   );
 };
