@@ -7,8 +7,8 @@ export interface IUser extends Document {
   password: string;
   roles: IRoleDocument['_id'];
   googleId?: string;
-  recoveryCode?: string;
-  recoveryCodeExpires?: Date;
+  recoveryCode?: string | null;
+  recoveryCodeExpires?: Date | null;
 }
 
 const userSchema: Schema = new Schema({

@@ -28,3 +28,14 @@ export interface tokenDataVerify {
 export interface bodyMailOTP {
   email: string;
 }
+
+export interface bodyMailOTPVerify {
+  email: string;
+  otp: string;
+}
+
+export interface bodyPasswordReset {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

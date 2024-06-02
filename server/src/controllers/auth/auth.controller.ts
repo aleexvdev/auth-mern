@@ -92,4 +92,36 @@ export class AuthController {
     }
   }
 
+  verifyOTPOAuth = async (req: Request, res: Response): Promise<void> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
+
+    try {
+      const data = await this.authService.verifyOTPOAuth(req.body);
+      if (!data) return errorResponse(res, 500, 'Error verifying OTP', 'Failed to verify OTP');
+      return successResponse(res, 'OTP verified successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
+    }
+  }
+
+  recoverPassword = async (req: Request, res: Response): Promise<void> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const formattedErrors = formatErrors(errors.array());
+      return errorResponse(res, 500, 'Bad Request', formattedErrors);
+    }
+
+    try {
+      const data = await this.authService.recoverPassword(req.body);
+      if (!data) return errorResponse(res, 500, 'Error recovering password', 'Failed to recover password');
+      return successResponse(res, 'Password recovered successfully', data);
+    } catch (error: any) {
+      return errorResponse(res, 500, 'Internal Server Error', error.message);
+    }
+  }
+
 }

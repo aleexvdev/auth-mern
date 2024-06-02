@@ -1,6 +1,6 @@
 import config from "../config/config";
 import { IUser, User } from "../models/user.model";
-import { SignInData, SignUpData, bodyMailOTP, tokenData, tokenDataVerify } from "../types/auth";
+import { SignInData, SignUpData, bodyMailOTP, bodyMailOTPVerify, bodyPasswordReset, tokenData, tokenDataVerify } from "../types/auth";
 import { comparePassword, generateToken, hashPassword, verifyToken } from "../utils";
 import { RoleService } from "./role.service";
 import nodemailer from 'nodemailer';
@@ -127,7 +127,7 @@ export class AuthService {
           refreshToken: process.env.OAUTH2_REFRESH_TOKEN,
           accessToken: accessToken.token || '',
       },
-  });
+    });
 
     const mailOptions = {
       from: process.env.OAUTH2_CLIENTE_EMAIL,
@@ -148,8 +148,38 @@ export class AuthService {
       text: codeOTP
     }
 
-    return transporter.sendMail(mailOptions);
+    return await transporter.sendMail(mailOptions);
 
   }
 
+  verifyOTPOAuth = async (body: bodyMailOTPVerify) => {
+    const { email, otp } = body;
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User not found");
+    if (user.recoveryCode!== otp) throw new Error("OTP is incorrect");
+
+    const nowDate = new Date();
+    const expired = user.recoveryCodeExpires ? user.recoveryCodeExpires : nowDate;
+    if (nowDate > expired) throw new Error("OTP is expired");
+
+    user.recoveryCode = null;
+    user.recoveryCodeExpires = null;
+    await user.save();
+
+    return true;
+
+  }
+
+  recoverPassword = async (body: bodyPasswordReset) => {
+    const { email, password, confirmPassword } = body;
+    const user = await User.findOne({ email });
+    if (!user) throw new Error("User not found");
+
+    if (password!== confirmPassword) throw new Error("Passwords do not match");
+    const hashedPassword = await hashPassword(password);
+    user.password =  hashedPassword;
+    await user.save();
+    const token = await generateToken(user._id.toString(), user.email, user.roles);
+    return { user: user, token: token };
+  }
 }
