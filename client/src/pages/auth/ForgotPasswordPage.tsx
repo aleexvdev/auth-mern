@@ -13,7 +13,7 @@ import {
   sendCodeOTPMail,
 } from "../../features/auth/authSlice";
 
-export const RecoverPasswordPage = () => {
+export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
   const { success, isLoading, error } = useSelector(selectAuth);
@@ -30,7 +30,7 @@ export const RecoverPasswordPage = () => {
     if (success) {
       redirectTimer = setTimeout(() => {
         navigate("/verify-code");
-      }, 6000);
+      }, 3000);
     }
     return () => {
       clearTimeout(redirectTimer);
@@ -126,16 +126,16 @@ export const RecoverPasswordPage = () => {
                   </motion.div>
                 )}
                 {error && (
-                    <div
-                      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3"
-                      role="alert"
-                    >
-                      <strong className="font-bold">Error:</strong>
-                      <span className="block sm:inline pl-2">
-                        {getErrorMessage(error)}
-                      </span>
-                    </div>
-                  )}
+                  <div
+                    className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3"
+                    role="alert"
+                  >
+                    <strong className="font-bold">Error:</strong>
+                    <span className="block sm:inline pl-2">
+                      {getErrorMessage(error)}
+                    </span>
+                  </div>
+                )}
                 <div className="overflow-hidden w-full flex items-center justify-center gap-4">
                   <motion.div
                     className="w-full overflow-hidden"
@@ -173,7 +173,12 @@ export const RecoverPasswordPage = () => {
           </motion.div>
         </motion.div>
       </article>
-      {success && <Alert type={"success"} message={"The OTP code was sent to your email."} />}
+      {success && (
+        <Alert
+          type={"success"}
+          message={"The OTP code was sent to your email."}
+        />
+      )}
     </motion.section>
   );
 };

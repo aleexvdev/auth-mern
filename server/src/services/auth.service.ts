@@ -147,8 +147,8 @@ export class AuthService {
       `,
       text: codeOTP
     }
-
-    return await transporter.sendMail(mailOptions);
+    const sendMailOTP = await transporter.sendMail(mailOptions);
+    return { email: email, send: sendMailOTP };
 
   }
 
@@ -166,7 +166,7 @@ export class AuthService {
     user.recoveryCodeExpires = null;
     await user.save();
 
-    return true;
+    return { email: email, access: true };
 
   }
 

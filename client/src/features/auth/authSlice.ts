@@ -12,6 +12,7 @@ interface AuthState {
   isLoading: boolean;
   success: boolean;
   email: string | null;
+  codeotp: boolean;
 }
 
 const initialState: AuthState = {
@@ -22,6 +23,7 @@ const initialState: AuthState = {
   isLoading: false,
   success: false,
   email: null,
+  codeotp: false,
 };
 
 export const signIn = createAsyncThunk<
@@ -86,7 +88,23 @@ export const sendCodeOTPMail = createAsyncThunk<
   } catch (error: any) {
     return thunkAPI.rejectWithValue(error.response.data);
   }
-})
+});
+
+export const verifyCodeOTPMail = createAsyncThunk<
+  { message: string; detail: any },
+  { email: string, otp: string; },
+  { rejectValue: any }
+>("auth/verify-otp", async (data, thunkAPI) => {
+  try {
+    const response = await AuthAPI.verifyCodeOTPMail(data);
+    if (response.data.status === false) {
+      return thunkAPI.rejectWithValue(response.data.data);
+    }
+    return response.data;
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -173,18 +191,18 @@ export const authSlice = createSlice({
           localStorage.setItem("token", detail.token);
         }
       )
-      .addCase(signUp.rejected, 
+      .addCase(signUp.rejected,
         (
           state,
           action: PayloadAction<{ message: string; detail: { error: string } }>
         ) => {
-        state.isLoading = false;
-        state.success = false;
-        state.isAuthenticated = false;
-        state.token = null;
-        state.user = null;
-        state.error = action.payload.detail.error || "Error Sign Up";
-      })
+          state.isLoading = false;
+          state.success = false;
+          state.isAuthenticated = false;
+          state.token = null;
+          state.user = null;
+          state.error = action.payload.detail.error || "Error Sign Up";
+        })
       .addCase(verifyToken.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -216,10 +234,11 @@ export const authSlice = createSlice({
           state,
           action: PayloadAction<{ message: string; detail: any }>
         ) => {
-          action.payload;
+          const { detail } = action.payload;
           state.isLoading = false;
           state.success = true;
           state.error = null;
+          state.email = detail.email;
         }
       )
       .addCase(sendCodeOTPMail.rejected, (state, action) => {
@@ -227,6 +246,29 @@ export const authSlice = createSlice({
         state.success = false;
         state.error = action.payload.detail.error || "Unknown Error";
       })
+      .addCase(verifyCodeOTPMail.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        verifyCodeOTPMail.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ message: string; detail: any }>
+        ) => {
+          const { detail } = action.payload;
+          state.isLoading = false;
+          state.success = true;
+          state.error = null;
+          state.email = detail.email;
+          state.codeotp = true;
+        }
+      )
+      .addCase(verifyCodeOTPMail.rejected, (state, action) => {
+        state.isLoading = false;
+        state.success = false;
+        state.error = action.payload.detail.error || "Unknown Error";
+      });
   },
 });
 

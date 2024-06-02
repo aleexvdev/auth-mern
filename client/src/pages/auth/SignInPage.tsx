@@ -159,7 +159,7 @@ export const SignInPage = () => {
                     Remember me
                   </span>
                 </label>
-                <Link to={"/recover-password"} className="w-full flex items-center justify-end">
+                <Link to={"/forgot-password"} className="w-full flex items-center justify-end">
                   <span className="font-semibold text-base text-white hover:text-gray-400 text-right">
                     Forgot your password?
                   </span>
